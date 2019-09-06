@@ -7,9 +7,6 @@
 
 #include "UART.h"
 
-#include <avr/io.h>
-#include <stdio.h>
-#include "util/delay.h"
 
 
 void USART_Init( unsigned int ubrr )
@@ -23,12 +20,17 @@ void USART_Init( unsigned int ubrr )
 	UCSR0C = (1<<URSEL0)|(1<<USBS0)|(3<<UCSZ00);
 }
 
-void USART_Transmit( unsigned char data )
+int USART_Transmit( unsigned char data, FILE *file)
 {
 	/* Wait for empty transmit buffer */
-	while ( !( UCSR0A & (1<<UDRE0)) )
-	;
+	while ( !( UCSR0A & (1<<UDRE0)) );
 	/* Put data into buffer, sends the data */
 	UDR0 = data;
 }
 
+int USART_Receive( FILE *file )
+{// Wait for data to be received 
+if ( !(UCSR0A & (1<<RXC0)) ) return UDR0;
+// Get and return received data from buffer 
+return UDR0;
+}

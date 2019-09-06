@@ -14,4 +14,5 @@
 
 void USART_Init( unsigned int ubrr );
 
-void USART_Transmit( unsigned char data );
+int USART_Transmit( unsigned char data, FILE *file );
+int USART_Receive( FILE *file );
