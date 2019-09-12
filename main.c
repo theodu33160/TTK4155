@@ -1,6 +1,7 @@
 
 
 #include "UART.h"
+#include "accessMemory.c"
 
 
 int main(void)
@@ -9,7 +10,16 @@ int main(void)
 	USART_Init ( MYUBRR );
     fdevopen(USART_Transmit, USART_Receive);
     extern FILE* uart ;
-	printf("3");
+	printf("0");
+	
+	//initialisation for SRM TEST !!!!
+	MCUCR |= 1 << SRE; // enable external memory
+	SFIOR |= 1 << XMM2; // disable flashing pins (we only use 12 pins for addressing)
+
+	//
+	while (1) SRAM_test();
+
+
 	//int a=0;
     while(1)
     {
