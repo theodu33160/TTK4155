@@ -3,7 +3,7 @@
 #define LEFT_SLIDER 0x5
 #define RIGHT_SLIDER 0x4
 
-uint8_t getJoystick(uint8_t direction)
+uint8_t readADC(uint8_t direction)
 {
 	volatile char *ext_adc = (char *) 0x1400;
 	

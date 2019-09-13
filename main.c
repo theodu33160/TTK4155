@@ -2,24 +2,7 @@
 
 #include "UART.h"
 #include "accessMemory.c"
-
-
-#define DIR_Y 0x7
-#define DIR_X 0x6
-#define LEFT_SLIDER 0x5
-#define RIGHT_SLIDER 0x4
-
-uint8_t getJoystick(uint8_t direction)
-{
-	volatile char *ext_adc = (char *) 0x1400;
-	
-	ext_adc[0] = direction;
-	_delay_ms(20) ;
-	uint8_t result = ext_adc[0];
-	return result;
-//	printf("%d\n", result);
-}
-
+#include "usbCard.c"
 
 int main(void)
 {
@@ -34,11 +17,12 @@ int main(void)
 	SFIOR |= 1 << XMM2; // disable flashing pins (we only use 12 pins for addressing)
 
 	//acccess ADC
-	volatile char *ext_adc = (char *) 0x1400;
 	while(1)
 	{
-		printf("Y : %d \t",getJoystick(DIR_Y));
-		printf("X : %d \n",getJoystick(DIR_X));
+		printf("Y : %d \t",readADC(DIR_Y));
+		printf("X : %d \n",readADC(DIR_X));
+//		printf("slider L : %d \n",readADC(LEFT_SLIDER));
+//		printf("slider R : %d \n",readADC(RIGHT_SLIDER));
 		_delay_ms(100);
 	}
 
