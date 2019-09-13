@@ -15,7 +15,8 @@ int main(void)
 	//initialisation for SRM TEST !!!!
 	MCUCR |= 1 << SRE; // enable external memory
 	SFIOR |= 1 << XMM2; // disable flashing pins (we only use 12 pins for addressing)
-
+	volatile char *ext_adc = (char *) 0x1400;
+	ext_adc[2] = 5; 
 	//Adressing SRAM test
 	//while (1) SRAM_test();
 
