@@ -43,3 +43,5 @@ void SRAM_test(void)
      printf("SRAM test completed with \n%4d errors in write phase and \n%4d errors in retrieval phase\n\n", write_errors, retrieval_errors);
      _delay_ms(10000);
  }
+
+//test
