@@ -26,7 +26,8 @@ int main(void)
 
 	//enable pins of port B (put 11 in PB1 and PB0 for the 2 buttons
 	PORTB|= ~((1<<PB0)|(1<<PB1));
-
+	
+	initUsbCard();
 	
 
 	while(1)

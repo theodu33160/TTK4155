@@ -6,12 +6,13 @@
 
 #include <avr/io.h>
 
-#define PI 3.141592
-#define NEUTRAL 0
-#define LEFT 1
-#define RIGHT 2
-#define UP 3
-#define DOWN 4
+
+void initUsbCard()
+{
+	xOffstet = xJoystickCalibration();
+	yOffstet = yJoystickCalibration();
+	printf("offsets : x,y : %d ; %d\n\n",xOffstet, yOffstet);
+}
 
 
 uint8_t readADC(uint8_t channel)
@@ -100,10 +101,9 @@ int get_direction(int x, int y)
 void readJoystick()
 {
 	printf("Y : %u; X : %d\n\r ",readADC(DIR_X), readADC(DIR_Y));
-	//first put values between -127.5 and 127.5 and then between -100 and 100
-	int x = readADC(DIR_X) - 127;
+	int x = readADC(DIR_X) - xOffstet;
 	x = (int)x/1.275;
-	int y = readADC(DIR_Y) - offset;
+	int y = readADC(DIR_Y) - yOffstet;
 	y = y/1.275;
 
 	x = thresholds(x);
@@ -131,7 +131,25 @@ void readButtons()
 	_Bool btn2 = PINB & (1 << PB1);
 	printf("Button left: %d, button right: %d \n\r", btn2, btn1);
 }
-	
+
+int xJoystickCalibration()
+{
+//	_cli();	// desable ADC interrupt
+	int temp = 0;
+	for (int i =0 ; i<20;i++) temp = temp + readADC(DIR_X);
+//	sei();	 // Enable ADC interrupt
+	return (int)temp/20;
+}
+
+int yJoystickCalibration()
+{
+//	_cli();	// desable ADC interrupt
+	int temp = 0;
+	for (int i =0 ; i<20;i++) temp = temp + readADC(DIR_Y);
+//	sei();	 // Enable ADC interrupt
+	return (int) temp/20;
+}
+
 	
 
 

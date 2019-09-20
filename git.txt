@@ -3,7 +3,7 @@
 
 ##Clone from github: 
 
-git clone https://github.com/theodu33160/TTK4155
+git clone https://github.com/username/reponame
 
 ##add to log:
 
@@ -14,6 +14,8 @@ git commit -m "this is a comment for the log"
 ##upload / push to github 
 
 git push origin master 
+it : theodu33160
+password : Dejeuner33
 
 
 
@@ -27,4 +29,4 @@ sudo make flash //flash over to microcontroller
 
 
 
-
+Sanntid15
