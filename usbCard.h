@@ -1,6 +1,14 @@
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdint.h>
+#include <util/delay.h>
+#include <stdio.h>
+#include <math.h>
+
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+//#include "adc.h"
 //#include <interrupt.h>
 
 
@@ -44,5 +52,6 @@ int xJoystickCalibration();
 
 int yJoystickCalibration();
 
+void init_OLED();
 
-
+void write_c(uint8_t data);
