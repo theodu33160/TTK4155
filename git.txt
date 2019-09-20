@@ -3,7 +3,7 @@
 
 ##Clone from github: 
 
-git clone https://github.com/username/reponame
+git clone https://github.com/theodu33160/TTK4155
 
 ##add to log:
 
