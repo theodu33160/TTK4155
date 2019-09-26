@@ -1,10 +1,11 @@
+#ifndef USBCARD_H
+#define USBCARD_H
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <util/delay.h>
 #include <stdio.h>
 #include <math.h>
-
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
@@ -15,7 +16,6 @@
 
 #define DIR_Y 0x7
 #define DIR_X 0x6
-#define offset 127.5
 #define LEFT_SLIDER 0x5
 #define RIGHT_SLIDER 0x4
 #define F_CPU 4915200
@@ -26,8 +26,7 @@
 #define UP 3
 #define DOWN 4
 
-volatile int xOffstet;
-volatile int yOffstet;
+
 
 void initUsbCard();
 
@@ -52,6 +51,4 @@ int xJoystickCalibration();
 
 int yJoystickCalibration();
 
-void init_OLED();
-
-void write_c(uint8_t data);
+#endif

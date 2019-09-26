@@ -1,14 +1,28 @@
+#ifndef ADC_H
+#define ADC_H
+
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <util/delay.h>
 
+#include <stdbool.h>
+#include <stdint.h>
+#include <util/delay.h>
+#include <stdio.h>
+#include <math.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
 
-volatile uint8_t adc_measure = 0;
-volatile uint8_t* ext_ram = 0x800;
-volatile uint8_t* ext_adc = 0x1400;
-
+#define EXT_RAM 0x800
+#define EXT_ADC 0x1400
 
 void initInterrupt();
-ISR(INT2_vect);
-uint8_t readADC(uint8_t channel);
+
+//uint8_t readADC2(uint8_t channel);
+
+
+//ISR(INT1_vect);
+
+#endif

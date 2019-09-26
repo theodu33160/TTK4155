@@ -1,6 +1,7 @@
 #include "usbCard.h"
 
-
+volatile int xOffstet;
+volatile int yOffstet;
 
 void initUsbCard()
 {
@@ -12,10 +13,10 @@ void initUsbCard()
 
 uint8_t readADC(uint8_t channel)
 {
-	volatile char *ext_adc = (char *) 0x1400;
-	
+	char *ext_adc = (char *) 0x1400;
+
 	ext_adc[0] = channel;
-	_delay_us(500) ;
+	_delay_us(500);
 	uint8_t result = ext_adc[0];
 	return result;
 }
@@ -39,7 +40,7 @@ int get_angle(int x, int y)
 	if(x != 0)
 	{
 		angle = (int) (atan2(y,x)*180/PI);
-		
+
 	}else
 	{
 		if (y<0)
@@ -66,30 +67,30 @@ int get_direction(int x, int y)
 	int dir;
 	int mag = get_magnitude(x,y);
 	int angle = get_angle(x,y);
-	if (mag = 0)
+	if (mag == 0)
 	{
 		dir = NEUTRAL;
 	}else
 	{
-		if (45 < angle && angle < 135)
+		if (45 <= angle && angle < 135)
 		{
 			dir = UP;
 		}
-		else if (135 < angle && angle < 225)
+		else if (135 <= angle || angle < -135)
 		{
 			dir = LEFT;
 		}
-		else if (-135 < angle && angle < -45)
+		else if (-135 <= angle && angle < -45)
 		{
 			dir = DOWN;
 		}
-		else if (-45 < angle  && angle < 0 || 0 < angle && angle < 45)
+		else if (-45 <= angle && angle < 45)
 		{
 			dir = RIGHT;
-		}		
+		}
 	}
 	return dir;
-	
+
 }
 
 
@@ -105,11 +106,11 @@ void readJoystick()
 	y = thresholds(y);
 	int angle = get_angle(x,y);
 	printf("m = %d \t", get_magnitude(x,y));
-	
+
 	printf("X: %d %%, Y: %d %% , angle: %d \n\r", x, y, angle);
-	printf("DIRECTION: %d\n\r", get_direction(x,y));	
-	//delay_ms(1);	
-	
+	printf("DIRECTION: %d\n\r", get_direction(x,y));
+	//delay_ms(1);
+
 }
 
 
@@ -122,7 +123,7 @@ void readSliders()
 void readButtons()
 {
 
-	_Bool btn1 = PINB & (1 << PB0); 
+	_Bool btn1 = PINB & (1 << PB0);
 	_Bool btn2 = PINB & (1 << PB1);
 	printf("Button left: %d, button right: %d \n\r", btn2, btn1);
 }
@@ -145,34 +146,5 @@ int yJoystickCalibration()
 	return (int) temp/20;
 }
 
-void write_c(uint8_t data){
-	volatile char *ext_mem=(char*)0x1000;
-	ext_mem[0]=data;
-}
-	
 
 
-void init_OLED(){
-	write_c(0xae);        //  display  off 
-	write_c(0xa1);        //segment  remap  
-	write_c(0xda);        //common  pads  hardware:  alternative
-	write_c(0x12);  
-	write_c(0xc8);        //common  output scan direction:com63~com0
-	write_c(0xa8);        //multiplex  ration  mode:63  
-	write_c(0x3f); 
-	write_c(0xd5);        //display  divide ratio/osc. freq. mode
-	write_c(0x80);  
-	write_c(0x81);        //contrast  control 
-	write_c(0x50);  
-	write_c(0xd9);        //set  pre-charge  period  
-	write_c(0x21);   
-	write_c(0x20);        //Set  Memory  Addressing  Mode 
- 	write_c(0x02); 
-	write_c(0xdb);        //VCOM  deselect  level  mode
-	write_c(0x30); 
-	write_c(0xad);        //master  configuration 
-	write_c(0x00);   
-	write_c(0xa4);        //out  follows  RAM  content
-	write_c(0xa6);        //set  normal  display
-	write_c(0xaf);        //  display  on
-}
