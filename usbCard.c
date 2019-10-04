@@ -34,8 +34,10 @@ int thresholds(int dir)
 }
 
 
-int get_angle(int x, int y)
+int get_angle()
 {
+	uint8_t x= read_joystick(DIR_X);
+	uint8_t y= read_joystick(DIR_Y);
 	int angle = 0;
 	if(x != 0)
 	{
@@ -56,17 +58,21 @@ int get_angle(int x, int y)
 }
 
 
-int get_magnitude(int x, int y)
+int get_magnitude()
 {
+	uint8_t x= read_joystick(DIR_X);
+	uint8_t y= read_joystick(DIR_Y);
 	return (int) sqrt(x*x+y*y);
 }
 
 
-int get_direction(int x, int y)
+int get_direction()
 {
+	uint8_t x= read_joystick(DIR_X);
+	uint8_t y= read_joystick(DIR_Y);
 	int dir;
-	int mag = get_magnitude(x,y);
-	int angle = get_angle(x,y);
+	int mag = get_magnitude();
+	int angle = get_angle();
 	if (mag == 0)
 	{
 		dir = NEUTRAL;
@@ -94,21 +100,16 @@ int get_direction(int x, int y)
 }
 
 
-void readJoystick()
+void printJoystick()
 {
-	printf("Y : %u; X : %d\n\r ",readADC(DIR_X), readADC(DIR_Y));
-	int x = readADC(DIR_X) - xOffstet;
-	x = (int)x/1.275;
-	int y = readADC(DIR_Y) - yOffstet;
-	y = y/1.275;
+	printf("Y : %u; X : %d\t ",readADC(DIR_X), readADC(DIR_Y));
+	uint8_t x= read_joystick(DIR_X);
+	uint8_t y= read_joystick(DIR_Y);
+	int angle = get_angle();
+	printf("m = %d \t", get_magnitude());
 
-	x = thresholds(x);
-	y = thresholds(y);
-	int angle = get_angle(x,y);
-	printf("m = %d \t", get_magnitude(x,y));
-
-	printf("X: %d %%, Y: %d %% , angle: %d \n\r", x, y, angle);
-	printf("DIRECTION: %d\n\r", get_direction(x,y));
+	printf("X: %d %%, Y: %d %% , angle: %d \t", x, y, angle);
+	printf("DIRECTION: %d\t", get_direction());
 	//delay_ms(1);
 
 }
@@ -116,8 +117,8 @@ void readJoystick()
 
 void readSliders()
 {
-	printf("slider L : %d \n\r",readADC(LEFT_SLIDER));
-	printf("slider R : %d \n\r",readADC(RIGHT_SLIDER));
+	printf("slider L : %d \t",readADC(LEFT_SLIDER));
+	printf("slider R : %d \t",readADC(RIGHT_SLIDER));
 }
 
 void readButtons()
@@ -125,7 +126,8 @@ void readButtons()
 
 	_Bool btn1 = PINB & (1 << PB0);
 	_Bool btn2 = PINB & (1 << PB1);
-	printf("Button left: %d, button right: %d \n\r", btn2, btn1);
+	_Bool btnJoystick = PINB & (1 << PB2);
+	printf("Button left: %d\t, button right: %d\t button joystick: %d \n\r", btn2, btn1, btnJoystick);
 }
 
 int xJoystickCalibration()
@@ -147,4 +149,18 @@ int yJoystickCalibration()
 }
 
 
+_Bool read_button(uint8_t btn)
+{
+	return (_Bool)  PINB & (1 << btn);
+}
+
+uint8_t read_joystick(uint8_t dir)
+{
+	uint8_t result =0;
+	if(dir == DIR_X) result = readADC(DIR_X) - xOffstet;
+	else if(dir==DIR_Y) result = readADC(DIR_Y) - yOffstet;
+	else printf("error, unknown direction");
+	result = (int) result/1.275;
+	return thresholds(result);
+}
 

@@ -26,6 +26,10 @@
 #define UP 3
 #define DOWN 4
 
+#define BTN_RIGHT PB0
+#define BTN_LEFT PB1
+#define BTN_JOYSTICK PB2
+
 
 
 void initUsbCard();
@@ -35,13 +39,13 @@ uint8_t readADC(uint8_t channel);
 //thresholds
 int thresholds(int dir);
 
-int get_angle(int x, int y);
+int get_angle();
 
-int get_direction(int x, int y);
+int get_direction();
 
-int get_magnitude(int x, int y);
+int get_magnitude();
 
-void readJoystick();
+void printJoystick();
 
 void readSliders();
 
@@ -50,5 +54,9 @@ void readButtons();
 int xJoystickCalibration();
 
 int yJoystickCalibration();
+
+_Bool read_button(uint8_t btn);
+
+uint8_t read_joystick(uint8_t dir);
 
 #endif

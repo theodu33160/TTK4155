@@ -1,6 +1,6 @@
 #include <avr/interrupt.h>
 #include "UART.h"
-//#include "accessMemory.c"
+#include "accessMemory.c"
 #include "usbCard.h"
 //#include "adc.h"
 #include "oled.h"
@@ -41,17 +41,41 @@ int main(void)
 	//enable pins of port B (put 11 in PB1 and PB0 for the 2 buttons
 	PORTB|= ~((1<<PB0)|(1<<PB1));
 	
-	initUsbCard();
-	_delay_ms(1000);
+	//while(1) SRAM_test();
 	
+	initUsbCard();
+		
 //	initInterrupt();
 //	readADC(0x4);
 
 	OLED_init();
+	//write_arrow();
+	//OLED_clean();
+	_delay_ms(1000);
+	//write_arrow();
 	
 
-	while (true) 
+	while(1)
 	{
+
+		//printJoystick();
+		//readSliders();
+		_Bool btn1 = PINB & (1 << PB0); 
+		_Bool btn2 = PINB & (1 << PB1);
+		OLED_black();
+
+		//OLED_white();
+		
+		//write_arrow();
+		//printf("Button left: %d, button right: %d \n\r", btn2, btn1);		
+
+		//_delay_ms(1000);
+		//printf("sliders L/F %d , %d \n\r", ext_ram[RAM_SLIDER_LEFT],ext_ram[RAM_SLIDER_RIGHT]);
+
+	}
+
+	//while (true) 
+	//{
 		/*ext_mem = 0x1400;
 		ext_mem[1]= 1 ;
 		printf("test ADC \n\r");
@@ -67,26 +91,22 @@ int main(void)
 		printf("test oled\n\r");
 		_delay_ms(2000);*/
 
-		write_arrow();
 		
-		
+	//}
 
-
-	}
-
-	while(1)
+	/*while(1)
 	{
 
-		/*readJoystick();
+		printJoystick();
 		readSliders();
 		_Bool btn1 = PINB & (1 << PB0); 
 		_Bool btn2 = PINB & (1 << PB1);
 		printf("Button left: %d, button right: %d \n\r", btn2, btn1);		
-*/
-		_delay_ms(1000);
-		printf("sliders L/F %d , %d \n\r", ext_ram[RAM_SLIDER_LEFT],ext_ram[RAM_SLIDER_RIGHT]);
 
-	}
+		//_delay_ms(1000);
+		//printf("sliders L/F %d , %d \n\r", ext_ram[RAM_SLIDER_LEFT],ext_ram[RAM_SLIDER_RIGHT]);
+
+	}*/
 
 
 /*
