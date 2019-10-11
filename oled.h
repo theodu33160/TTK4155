@@ -27,7 +27,7 @@ void OLED_black();
 void OLED_home();
 void OLED_goto_line(uint8_t line);
 void OLED_goto_column(uint8_t column);
-void OLED_printf(const char *data);
+void OLED_printf(const char *data, uint8_t delay = 0);
 void colInc();
 void OLED_Mode(char mode);
 

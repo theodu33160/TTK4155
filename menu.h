@@ -9,14 +9,17 @@
 #include <stdint.h>
 #include <util/delay.h>
 
-#define NB_LINES_MENU 4
+#define NB_LINES_MENU 5
+#define NB_CHARACTERS 4
 
 
 uint8_t checkJoystick();
 
 //---------function management menu
-voidmenu_displayMainPage();
-void menu_navigate();
+void menu_init();
+void menu_main();
+void menu_displayMainPage();
+uint8_t menu_navigate(uint8_t firstLine);
 void setSettings();
 void start_game();
 void showLeaderBoard();
