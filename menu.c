@@ -11,9 +11,9 @@ void menu_init()
     OLED_printf_slow("Welcome",50);
     OLED_pos(1,7);
     OLED_printf("To");
-    OLED_pos(0,2);
+    OLED_pos(3,2);
     OLED_printf_slow("PING - PONG",200);
-    OLED_pos(0,5);
+    OLED_pos(5,0);
     _delay_ms(500);
     OLED_printf("Touch Joystick");
     while(checkJoystick()==NEUTRAL)
@@ -66,9 +66,9 @@ void menu_displayMainPage()
     OLED_pos(2,0);
     OLED_printf("1 Settings"); //Settings
     OLED_pos(3,0);
-    OLED_printf("2 Play"); //Play
+    OLED_printf("2 Choose character"); //Play
     OLED_pos(4,0);
-    OLED_printf("3 Choose character"); //Play
+    OLED_printf("3 Play"); //Play
     OLED_pos(5,0);
     OLED_printf("4 Leader Board"); //Leader Board
     OLED_pos(6,0);
@@ -170,6 +170,7 @@ uint8_t setSettings()
 void chooseCharacter()
 {
     showCharChoice();
+    while(checkJoystick()!=NEUTRAL) {_delay_ms(10);}
     uint8_t charChoice = menu_navigate(3);
     OLED_black();
     OLED_pos(1,1);
@@ -178,7 +179,7 @@ void chooseCharacter()
     OLED_printf("You have chosen");
     OLED_pos(4,0);
     OLED_printf(characters[charChoice]);
-    _delay_ms(1000);//can be change to the press of a random button
+    _delay_ms(3000);//can be change to the press of a random button
     menu_main();
 }
 
