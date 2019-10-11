@@ -1,20 +1,20 @@
 #include "menu.h"
 
 //-------default settings :
-uint8_t difficulty = 1;
-char* characters[NB_CHARACTERS] = {"Mario","Peach","Luigy","Browser"};
+volatile uint8_t difficulty = 1;
+char* characters[NB_CHARACTERS] = {"Mario","Peach","Luigy","Browser","inaki"};
 
 void menu_init()
 {
     OLED_black();
-    OLED_pos(0,3);
+    OLED_pos(0,3*8);
     OLED_printf_slow("Welcome",50);
-    OLED_pos(1,7);
-    OLED_printf("To");
-    OLED_pos(3,2);
+    OLED_pos(1,7*8);
+    OLED_printf_slow("To",500);
+    OLED_pos(3,20);
     OLED_printf_slow("PING - PONG",200);
-    OLED_pos(5,0);
-    _delay_ms(500);
+    OLED_pos(7,0);
+    _delay_ms(1500);
     OLED_printf("Touch Joystick");
     while(checkJoystick()==NEUTRAL)
     {
@@ -27,7 +27,7 @@ void menu_init()
 void menu_main()
 {
     menu_displayMainPage();
-    uint8_t menuChoice = menu_navigate(2);
+    uint8_t menuChoice = menu_navigate(2,NB_LINES_MENU);
     switch (menuChoice)
     {
         case 0:
@@ -77,7 +77,7 @@ void menu_displayMainPage()
     write_char_inv('1');
 }
 
-uint8_t menu_navigate(uint8_t firstLine)
+uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu)
 {
     uint8_t menu_pos = 0;
     _Bool actionAllowed = true;
@@ -94,8 +94,8 @@ uint8_t menu_navigate(uint8_t firstLine)
                 case DOWN:
                     OLED_pos(menu_pos + firstLine,0);
                     write_char(menu_pos+49);
-                    if(menu_pos ==NB_LINES_MENU) menu_pos = 0;
-                    else menu_pos++;
+                    menu_pos++;
+                    if(menu_pos ==nb_subMenu) menu_pos = 0;
                     OLED_pos(menu_pos + firstLine,0);
                     write_char_inv(menu_pos + 49);
                     actionAllowed=false;
@@ -104,7 +104,7 @@ uint8_t menu_navigate(uint8_t firstLine)
                 case UP:
                     OLED_pos(menu_pos + firstLine,0);
                     write_char(menu_pos+49);
-                    if (menu_pos == 0) menu_pos = NB_LINES_MENU;
+                    if (menu_pos == 0) menu_pos = nb_subMenu-1;
                     else menu_pos--;
                     OLED_pos(menu_pos + firstLine,0);
                     write_char_inv(menu_pos + 49);
@@ -144,7 +144,7 @@ uint8_t setSettings()
     //add something to chose the difficulty
     while(1)
     {
-        OLED_pos(2,13);
+        OLED_pos(2,13*8);
         write_char(difficulty+48);
         switch(checkJoystick())
         {
@@ -171,7 +171,7 @@ void chooseCharacter()
 {
     showCharChoice();
     while(checkJoystick()!=NEUTRAL) {_delay_ms(10);}
-    uint8_t charChoice = menu_navigate(3);
+    uint8_t charChoice = menu_navigate(3,NB_CHARACTERS);
     OLED_black();
     OLED_pos(1,1);
     OLED_printf("Good choice:");
@@ -238,7 +238,7 @@ void showCharChoice()
     OLED_pos(0,0);
     OLED_printf("Choose character");
     OLED_pos(1,0);
-    OLED_printf("Go right for ?  e"); //the question mark is because there is not enough room to write more : missing one char.
+    //OLED_printf("Go right for ?"); //the question mark is because there is not enough room to write more : missing one char.
 
     for(uint8_t i = 0;i<NB_CHARACTERS;i++)
     {
