@@ -2,17 +2,17 @@
 
 //-------default settings :
 uint8_t difficulty = 1;
-char** characters[NB_CHARACTERS] = {"Mario","Peach","Luigy","Browser"};
+char* characters[NB_CHARACTERS] = {"Mario","Peach","Luigy","Browser"};
 
 void menu_init()
 {
     OLED_black();
     OLED_pos(0,3);
-    OLED_printf("Welcome",50);
+    OLED_printf_slow("Welcome",50);
     OLED_pos(1,7);
     OLED_printf("To");
     OLED_pos(0,2);
-    OLED_printf("PING - PONG",200);
+    OLED_printf_slow("PING - PONG",200);
     OLED_pos(0,5);
     _delay_ms(500);
     OLED_printf("Touch Joystick");
@@ -134,7 +134,7 @@ uint8_t checkJoystick()
 
 }
 
-void setSettings()
+uint8_t setSettings()
 {
     OLED_black();
     OLED_pos(0,0);
@@ -199,8 +199,7 @@ void start_game()
     {
 	if(checkJoystick()==LEFT)
 	{
-	    menu_displayMainPage();
-	    menu_navigate();
+            menu_main();
 	}
     }
 
@@ -240,7 +239,7 @@ void showCharChoice()
     OLED_pos(1,0);
     OLED_printf("Go right for ?  e"); //the question mark is because there is not enough room to write more : missing one char.
 
-    for(uint8_t i = 0;i<NB_CHARACTERS,i++)
+    for(uint8_t i = 0;i<NB_CHARACTERS;i++)
     {
         OLED_pos(3+i,0);
         write_char(i+49);

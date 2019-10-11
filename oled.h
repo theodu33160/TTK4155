@@ -2,6 +2,7 @@
 #define OLED_H
 
 #define F_CPU 4962000
+#define __DELAY_BACKWARD_COMPATIBLE__
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -27,7 +28,8 @@ void OLED_black();
 void OLED_home();
 void OLED_goto_line(uint8_t line);
 void OLED_goto_column(uint8_t column);
-void OLED_printf(const char *data, uint8_t delay = 0);
+void OLED_printf(const char *data);
+void OLED_printf_slow(const char *data, const uint8_t delay);
 void colInc();
 void OLED_Mode(char mode);
 

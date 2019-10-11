@@ -20,10 +20,12 @@ void menu_init();
 void menu_main();
 void menu_displayMainPage();
 uint8_t menu_navigate(uint8_t firstLine);
-void setSettings();
+uint8_t setSettings();
 void start_game();
 void showLeaderBoard();
 void menu_quit();
+void chooseCharacter();
+void showCharChoice();
 
 
 

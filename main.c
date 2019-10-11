@@ -55,8 +55,7 @@ int main(void)
   	OLED_black();
   	OLED_home();
 	  	
-  	menu_displayMainPage();
-	menu_navigate();
+        menu_init();
 
 
 	while(1)
