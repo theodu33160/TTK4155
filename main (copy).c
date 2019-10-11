@@ -3,7 +3,7 @@
 #include "accessMemory.c"
 #include "usbCard.h"
 //#include "adc.h"
-#include "oled.h"
+#include "oled2.h"
 
 #define RAM_SLIDER_RIGHT 0x0
 #define RAM_SLIDER_LEFT  0x1
@@ -51,19 +51,26 @@ int main(void)
 //	readADC(0x4);
 
 	OLED_init();
-  	OLED_home();
-  	OLED_black();
-  	OLED_home();
-	  	
-  	menu_displayMainPage();
-	menu_navigate();
+	//write_arrow();
+	//OLED_clean();
+	//write_arrow();
+	//write_char('c');
+  //OLED_pos(5,50);
+//	write_char('c');
+	//write_char('c');
 
+   // OLED_black();
+	OLED_pos(5,50);
+   write_char('c');
+   OLED_pos(6,100);
+    write_char('c');
 
+    //_delay_ms(2000);
+	//OLED_printf("123456789100 Donc ca serait quand meme archi mood si ca fonctionnait!");
 	while(1)
 	{
-
+    //OLED_white();
 		//printJoystick();
-  //  _delay_ms(1000);
 		//readSliders();
 		//_Bool btn1 = PINB & (1 << PB0);
 		//_Bool btn2 = PINB & (1 << PB1);

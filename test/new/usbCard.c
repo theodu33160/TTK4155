@@ -24,7 +24,7 @@ uint8_t readADC(uint8_t channel)
 
 int8_t thresholds(int8_t dir)
 {
-	if (dir > -THRESHOLD && dir < THRESHOLD)
+	if (dir > -5 && dir < 5)
 		dir = 0;
 	if (dir > 100)
 		dir = 100;
@@ -35,16 +35,16 @@ int8_t thresholds(int8_t dir)
 
 int8_t get_x()
 {
-	int8_t x = (int)(readADC(DIR_X) - xOffstet)/1.275;
+	int8_t x = readADC(DIR_X) - xOffstet;
+	//x = (int)x/1.275;
 	x = thresholds(x);
-	return x;
 }
 
 int8_t get_y()
 {
-	int8_t y = (int)(readADC(DIR_Y) - yOffstet)/1.275;
+	int8_t y = readADC(DIR_Y) - yOffstet;
+	//y = (int)y/1.275;
 	y = thresholds(y);
-	return y;
 }
 
 
@@ -59,7 +59,7 @@ int get_angle()
 	if(x != 0)
 	{
 		angle = (int) (atan2(y,x)*180/PI);
-		//printf("\tangle in get_angle: %d\t",angle); 
+		printf("\tangle in get_angle: %d\t",angle); 
 
 	}else
 	{
@@ -78,11 +78,8 @@ int get_angle()
 
 uint8_t get_magnitude()
 {
-	int8_t x = get_x();
-
-	
-	int8_t y = get_y();
-
+	int8_t x= read_joystick(DIR_X);
+	int8_t y= read_joystick(DIR_Y);
 	return (int) sqrt(x*x+y*y);
 }
 
@@ -130,7 +127,6 @@ void printJoystick()
 	//printf("m = %d \n\r", get_magnitude());
 
 	printf("X: %d %%, Y: %d %% , angle: %d \t", x, y, angle);
-	printf("MAG: %d\t", get_magnitude());
 	printf("DIRECTION: %d\n\r", get_direction());
 
 	_delay_ms(100);
@@ -174,24 +170,7 @@ int yJoystickCalibration()
 
 _Bool read_button(uint8_t btn)
 {
-	switch(btn){
-	{
-                        case BTN_RIGHT:
-                            return PINB & (1 << PB0);
-                            break;
-                        case BTN_LEFT:
-                           return PINB & (1 << PB1);
-                            break;
-                        case BTN_JOYSTICK:
-                            return PINB & (1 << PB2);
-                            break;
-                        default:
-                            break;
-                    }
-
-	
-		
-	}
+	return (_Bool)  PINB & (1 << btn);
 }
 
 uint8_t read_joystick(uint8_t dir)
