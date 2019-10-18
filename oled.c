@@ -76,6 +76,14 @@ void OLED_printf(const char *data)
 	  write_char(*data++);
 }
 
+/*void OLED_printf_slow(const char *data, int delay)
+{
+	while (*data != '\0')
+    {
+        write_char(*data++);
+        _delay_ms( delay);
+    }
+}*/
 
 
 void write_char_inv(char c)

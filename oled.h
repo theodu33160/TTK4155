@@ -30,5 +30,6 @@ void OLED_goto_column(uint8_t column);
 void OLED_printf(const char *data);
 void colInc();
 void OLED_Mode(char mode);
+//void OLED_printf_slow(const char *data, int delay);
 
 #endif

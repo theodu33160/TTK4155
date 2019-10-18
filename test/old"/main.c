@@ -60,22 +60,7 @@ int main(void)
 	  menu_navigate();*/
 
     //Self test of the SPI driver
-
-
-/* Exercice SPI and Can Controller*/
-
-	//mcp2515_init(MODE_CONFIG);
-	mcp2515_init(MODE_LOOPBACK);
-
-
-	
-	/*can_init(MODE_LOOPBACK);
-	struct can_message message;
-	message.id= 3;
-	message.length= 1;
-	message.data[0] = (uint8_t)’U’;
-	can_message_send(&message);*/
-
+mcp2515_init();
 
 	while(1)
 	{
