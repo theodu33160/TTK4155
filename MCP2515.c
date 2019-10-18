@@ -10,8 +10,6 @@ uint8_t mcp2515_init(mode){
 	uint8_t value;
 	SPI_MasterInit(); // Initialize
 
-	_delay_ms(1000);
-
 	mcp2515_reset(); // Send reset-command
 	
 	mcp2515_write(MCP_CANCTRL, mode);
@@ -20,11 +18,11 @@ uint8_t mcp2515_init(mode){
 	_delay_us(100);
 	value = mcp2515_read(MCP_CANSTAT); //, &value
 	if((value & MODE_MASK)  != mode) { //value&
-		printf("MCP2515 is NOT in the chosen mode after reset\n");
+		printf("MCP2515 is NOT in the chosen mode after reset\n\r");
 		return 1;
 	}
 	// More initialization
-	else printf("Good config");
+	else printf("Good config\n\r");
 	return 0;
 }
 
@@ -63,13 +61,9 @@ void mcp2515_bit_modify(uint8_t address,uint8_t mask,uint8_t data){
 }
 
 void mcp2515_reset(){
-	printf("enter\n");
  PORTB &= ~(1<<CAN_CS); // SelectCAN-controller
- printf("selected\n");
 	SPI_write(MCP_RESET); // Send reset command byte instruction
-	printf("written\n");
 	PORTB |= (1<<CAN_CS); // DeselectCAN-controller
-	printf("deselected\n");
 
 }
 

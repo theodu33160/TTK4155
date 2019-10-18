@@ -65,6 +65,15 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_RXB0SIDH	0x61
 #define MCP_RXB1CTRL	0x70
 #define MCP_RXB1SIDH	0x71
+//added
+//   MCP_TXB0SIDH MCP_TXB0SIDL MCP_TXB0DLC MCP_TXB0D0 MCP_RXB0SIDL MCP_RXB0DLC MCP_RXB0D0
+#define MCP_TXB0SIDH 0x31
+#define MCP_TXB0SIDL 0x32
+#define MCP_TXB0DLC 0x35
+#define MCP_TXB0D0 0x36
+#define MCP_RXB0SIDL 0x62
+#define MCP_RXB0DLC 0x65
+#define MCP_RXB0D0 0x66
 
 
 #define MCP_TX_INT		0x1C		// Enable all transmit interrupts
@@ -161,7 +170,7 @@ uint8_t mcp2515_read(uint8_t address);
 
 void mcp2515_write(uint8_t address, uint8_t data);
 
-void mcp2515_request_to_send();
+void mcp2515_request_to_send(uint8_t RTS_command);
 
 void mcp2515_bit_modify(uint8_t address,uint8_t mask,uint8_t data);
 

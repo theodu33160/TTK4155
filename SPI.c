@@ -30,13 +30,11 @@ void SPI_MasterInit(void){
 
 
 void SPI_write(char cData){
-	printf("enter write\n");
 	/* Start transmission */
 	SPDR = cData;
 
 	/* Wait for transmission complete */
 	while(!(SPSR & (1<<SPIF)));
-	printf("fin\n");
 }
 
 

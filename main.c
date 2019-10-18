@@ -5,6 +5,8 @@
 //#include "adc.h"
 #include "oled.h"
 #include "MCP2515.h"
+#include "SPI.h"
+#include "CAN.h"
 
 #define RAM_SLIDER_RIGHT 0x0
 #define RAM_SLIDER_LEFT  0x1
@@ -69,12 +71,14 @@ int main(void)
 
 
 	
-	/*can_init(MODE_LOOPBACK);
-	struct can_message message;
+	can_init(MODE_LOOPBACK);
+	can_message message;
 	message.id= 3;
 	message.length= 1;
-	message.data[0] = (uint8_t)’U’;
-	can_message_send(&message);*/
+	message.data[0] = (uint8_t)'U';
+	can_message_send(&message);
+	can_message msg;
+	can_data_receive(&msg);
 
 
 	while(1)
