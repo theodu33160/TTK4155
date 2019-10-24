@@ -9,18 +9,23 @@
 #include <stdint.h>
 #include <util/delay.h>
 
-#define NB_LINES_MENU 4
+#define NB_LINES_MENU 5
+#define NB_CHARACTERS 5
 
 
 uint8_t checkJoystick();
 
 //---------function management menu
-voidmenu_displayMainPage();
-void menu_navigate();
-void setSettings();
+void menu_init();
+void menu_main();
+void menu_displayMainPage();
+uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu);
+uint8_t setSettings();
 void start_game();
 void showLeaderBoard();
 void menu_quit();
+void chooseCharacter();
+void showCharChoice();
 
 
 

@@ -1,5 +1,63 @@
 #include "menu.h"
 
+//-------default settings :
+volatile uint8_t difficulty = 1;
+char* characters[NB_CHARACTERS] = {"Mario","Peach","Luigy","Browser","inaki"};
+
+void menu_init()
+{
+    OLED_black();
+    OLED_pos(0,3*8);
+    OLED_printf_slow("Welcome",50);
+    OLED_pos(1,7*8);
+    OLED_printf_slow("To",500);
+    OLED_pos(3,20);
+    OLED_printf_slow("PING - PONG",200);
+    OLED_pos(7,0);
+    _delay_ms(1500);
+    OLED_printf("Touch Joystick");
+    while(checkJoystick()==NEUTRAL)
+    {
+        _delay_ms(10);
+    }
+    menu_main();
+}
+
+
+void menu_main()
+{
+    menu_displayMainPage();
+    uint8_t menuChoice = menu_navigate(2,NB_LINES_MENU);
+    switch (menuChoice)
+    {
+        case 0:
+            setSettings();
+            //Should we return to the main menu ?
+            break;
+        case 1:
+            chooseCharacter();
+            //Should we return to the main menu ?
+            break;
+        case 2:
+            start_game();
+            //Should we return to the main menu ?
+            break;
+        case 3:
+            showLeaderBoard();
+            //Should we return to the main menu ?
+            break;
+        case 4:
+            menu_quit();
+            //Should we return to the main menu ?
+            break;
+
+        default:
+            //Should we return to the main menu ?
+            break;
+    }
+
+}
+
 void menu_displayMainPage()
 {
     OLED_black();
@@ -8,86 +66,56 @@ void menu_displayMainPage()
     OLED_pos(2,0);
     OLED_printf("1 Settings"); //Settings
     OLED_pos(3,0);
-    OLED_printf("2 Play"); //Play
+    OLED_printf("2 Choose character"); //Play
     OLED_pos(4,0);
-    OLED_printf("3 Leader Board"); //Leader Board
+    OLED_printf("3 Play"); //Play
     OLED_pos(5,0);
-    OLED_printf("4 Quit"); //Quit
+    OLED_printf("4 Leader Board"); //Leader Board
+    OLED_pos(6,0);
+    OLED_printf("5 Quit"); //Quit
     OLED_pos(2,0); //retour à la première ligne du menu
     write_char_inv('1');
 }
 
-void menu_navigate()
+uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu)
 {
     uint8_t menu_pos = 0;
     _Bool actionAllowed = true;
+    uint8_t action = NEUTRAL;
 
     while(1)
     {
-        uint8_t action = checkJoystick();
-	
+        action = checkJoystick();
         if(action==NEUTRAL) actionAllowed = true;
-        if(actionAllowed && action != NEUTRAL)
+        if(actionAllowed)
         {
             switch(action)
             {
                 case DOWN:
-		    printf("case DOWN");
-                    OLED_pos(menu_pos+2,0);
-                    printf("menu_pos = %d\n\r",menu_pos );
+                    OLED_pos(menu_pos + firstLine,0);
                     write_char(menu_pos+49);
-                    menu_pos = (menu_pos + 1)  % NB_LINES_MENU;
-                    printf("menu_pos1 = %d\n\r",menu_pos );
-                    OLED_pos(menu_pos+2,0);
-                    printf("menu_pos2 = %d\n\r",menu_pos );
-		    write_char_inv(menu_pos + 49);
+                    menu_pos++;
+                    if(menu_pos ==nb_subMenu) menu_pos = 0;
+                    OLED_pos(menu_pos + firstLine,0);
+                    write_char_inv(menu_pos + 49);
                     actionAllowed=false;
                     break;
 
                 case UP:
- 		    OLED_pos(menu_pos+2,0);
-		    printf("case UP");
-		    write_char(menu_pos+49);
-		    if (menu_pos == 0){
-			menu_pos = 3;
-		    }
-		    else{
-			menu_pos--;
-		    }
-                    
-                    OLED_pos(menu_pos+2,0);
-		    write_char_inv(menu_pos + 49);
+                    OLED_pos(menu_pos + firstLine,0);
+                    write_char(menu_pos+49);
+                    if (menu_pos == 0) menu_pos = nb_subMenu-1;
+                    else menu_pos--;
+                    OLED_pos(menu_pos + firstLine,0);
+                    write_char_inv(menu_pos + 49);
                     actionAllowed=false;
                     break;
-		case RIGHT:
-                case PUSH:
-		    printf("action : %d\n\r",action);
-		    printf("case PUSH");
-                    switch (menu_pos)
-                    {
-                        case 0:
-                            setSettings();
-                            //Should we return to the main menu ?
-                            break;
-                        case 1:
-                            start_game();
-                            //Should we return to the main menu ?
-                            break;
-                        case 2:
-                            showLeaderBoard();
-                            //Should we return to the main menu ?
-                            break;
-                        case 3:
-                            menu_quit();
-                            //Should we return to the main menu ?
-                            break;
 
-                        default:
-                            //Should we return to the main menu ?
-                            break;
-                    }
-                    actionAllowed=false;
+                case RIGHT:
+                case PUSH:
+                    return menu_pos;
                     break;
+
                 default:
                   //  printf("unknown case in the navigation in the menu");
                     break;
@@ -106,23 +134,53 @@ uint8_t checkJoystick()
 
 }
 
-void setSettings()
+uint8_t setSettings()
 {
     OLED_black();
     OLED_pos(0,0);
     OLED_printf("Setting page");
     OLED_pos(2,0);
-    OLED_printf("difficulty ? 1");
+    OLED_printf("difficulty ? ");
     //add something to chose the difficulty
     while(1)
     {
-	if(checkJoystick()==LEFT)
-	{
-	    menu_displayMainPage();
-	    menu_navigate();
-	}
+        OLED_pos(2,13*8);
+        write_char(difficulty+48);
+        switch(checkJoystick())
+        {
+            case PUSH:
+            case LEFT:
+                menu_main();
+                return difficulty;
+            break;
+            case DOWN:
+                if (difficulty>1) difficulty--;
+                break;
+            case UP:
+                if (difficulty<9) difficulty++;
+                break;
+            default:
+                break;
+
+        }
     }
 
+}
+
+void chooseCharacter()
+{
+    showCharChoice();
+    while(checkJoystick()!=NEUTRAL) {_delay_ms(10);}
+    uint8_t charChoice = menu_navigate(3,NB_CHARACTERS);
+    OLED_black();
+    OLED_pos(1,1);
+    OLED_printf("Good choice:");
+    OLED_pos(2,0);
+    OLED_printf("You have chosen");
+    OLED_pos(4,0);
+    OLED_printf(characters[charChoice]);
+    _delay_ms(3000);//can be change to the press of a random button
+    menu_main();
 }
 
 void start_game()
@@ -142,8 +200,7 @@ void start_game()
     {
 	if(checkJoystick()==LEFT)
 	{
-	    menu_displayMainPage();
-	    menu_navigate();
+            menu_main();
 	}
     }
 
@@ -160,11 +217,10 @@ void showLeaderBoard()
     OLED_printf("2 Stud. assist.");
     while(1)
     {
-	if(checkJoystick()==LEFT)
-	{
-	    menu_displayMainPage();
-	    menu_navigate();
-	}
+        if(checkJoystick()==LEFT)
+        {
+            menu_main();
+        }
     }
 
 }
@@ -173,4 +229,22 @@ void menu_quit()
 {
     OLED_black();
     while(1);
+}
+
+
+void showCharChoice()
+{
+    OLED_black();
+    OLED_pos(0,0);
+    OLED_printf("Choose character");
+    OLED_pos(1,0);
+    //OLED_printf("Go right for ?"); //the question mark is because there is not enough room to write more : missing one char.
+
+    for(uint8_t i = 0;i<NB_CHARACTERS;i++)
+    {
+        OLED_pos(3+i,0);
+        write_char(i+49);
+        write_char(' ');
+        OLED_printf(characters[i]);
+    }
 }

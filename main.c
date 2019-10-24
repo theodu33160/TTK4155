@@ -64,7 +64,7 @@ int main(void)
     //Self test of the SPI driver
 
 
-/* Exercice SPI and Can Controller*/
+/* SPI and Can Controller exercise*/
 
 	//mcp2515_init(MODE_CONFIG);
 	mcp2515_init(MODE_LOOPBACK);
@@ -79,6 +79,8 @@ int main(void)
 	can_message_send(&message);
 	can_message msg;
 	can_data_receive(&msg);
+	  	
+        menu_init();
 
 
 	while(1)

@@ -73,7 +73,18 @@ void write_char(char c)
 void OLED_printf(const char *data)
 {
 	while (*data != '\0')
-	  write_char(*data++);
+    {
+        write_char(*data++);
+    }
+}
+
+void OLED_printf_slow(const char *data, const uint8_t delay)
+{
+        while (*data != '\0')
+    {
+        write_char(*data++);
+        _delay_ms(delay);
+    }
 }
 
 /*void OLED_printf_slow(const char *data, int delay)

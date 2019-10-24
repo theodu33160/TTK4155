@@ -78,8 +78,8 @@ void can_data_receive(can_message* msg){
 		for (i = 0; i < msg->length; i++){
 			msg->data[i] = mcp2515_read(MCP_RXB0D0 + i);  // TXBnDm => n = buffer number and m = data bit
 		
-		printf("id: %d ", msg->id);
-		printf("length: %d ", msg->length);
+		printf("Message received: id: %d\t", msg->id);
+		printf("length: %d\t msg: %s\n\r ", msg->length, msg->data); //We have strange values with the %d and %u for the message
 		//printf("data: %d ", msg->data);
 		
 		}
