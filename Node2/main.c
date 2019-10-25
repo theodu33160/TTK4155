@@ -39,7 +39,7 @@ int main(void)
 	// printf("data: %x \n\r", data);
 	// _delay_ms(3000);
 
-/*
+
 	can_message message;
 	message.id= 3;
 	message.length= 1;

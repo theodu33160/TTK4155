@@ -106,3 +106,11 @@ can_int_vect(){
 	
 }*/
 
+void saveUsbValues(can_message* msg, int* listValues)
+{
+	listValues[BTN_right] = msg->data[0] & 1;
+	listValues[BTN_left] = msg->data[0] & 2 >>1;
+	listValues[BTN_joystick] = msg->data[0] & 4 >>2;
+	listValues[leftslider] = msg->data[0];
+}
+enum USB_list_name = {"BTN_right","BTN_left","BTN_joystick","left_slider","right_slider","joystick_X","joystick_Y","joystick_magnitude","joystick_angle"};
