@@ -30,8 +30,6 @@ void can_message_send(can_message* msg)
 
 }
 
- 
-
 int can_error(){
 	if ((mcp2515_read(MCP_TXB0CTRL) & 4) >>4){
 		printf("TRANSMISSION ERROR DETECTED");		
@@ -46,7 +44,7 @@ int can_error(){
 		
 }
 
-int can_transmit_complete(){
+_Bool can_transmit_complete(){
 
 	if (mcp2515_read((MCP_TXB0CTRL & 3) >> 3)==0)
 	{
@@ -61,8 +59,9 @@ void can_data_receive(can_message* msg){
 	//wait for a received message
 	mcp2515_write(MCP_CANINTE, 0b1); 	//enable interrupt pin
 	int canintf_reg = mcp2515_read(MCP_CANINTF);   //read status register
-	int status_reg = (canintf_reg & 0b1) >> 1; 
-	if (status_reg==0){
+	printf("canintf %d\n\r", canintf_reg);
+	int status_reg = (canintf_reg); 
+	if ((status_reg & 0b1)==1){  //RXB0 int
 		//read message
 		//id 
 		int id_h = mcp2515_read(MCP_RXB0SIDH);
@@ -79,14 +78,30 @@ void can_data_receive(can_message* msg){
 			msg->data[i] = mcp2515_read(MCP_RXB0D0 + i);  // TXBnDm => n = buffer number and m = data bit
 		
 		printf("Message received: id: %d\t", msg->id);
-		printf("length: %d\t msg: %s\n\r ", msg->length, msg->data); //We have strange values with the %d and %u for the message
-		//printf("data: %d ", msg->data);
-		
+		printf("Length: %d\t msg: %s\n\r ", msg->length, msg->data); //We have strange values with the %d and %u for the message
+		mcp2515_write(MCP_CANINTF, canintf_reg - 1); //clear the last bit in the register to say that we have read the message
 		}
-
 	}
-	return msg;
-	
+	if (status_reg & 0b10){  //RXB1 int
+		//read message
+		//id 
+		int id_h = mcp2515_read(MCP_RXB1SIDH);
+		int id_l = mcp2515_read(MCP_RXB1SIDL);
+		msg->id = (id_h << 3) + (id_l>>5);
+		
+		//length
+		msg->length = 0b1111 & mcp2515_read(MCP_RXB1DLC);
+		
+		//data
+		uint8_t i;
+		for (i = 0; i < msg->length; i++){
+			msg->data[i] = mcp2515_read(MCP_RXB1D0 + i);  // TXBnDm => n = buffer number and m = data bit
+		
+		printf("Message received: id: %d\t", msg->id);
+		printf("Length: %d\t msg: %s\n\r ", msg->length, msg->data); //We have strange values with the %d and %u for the message
+		mcp2515_write(MCP_CANINTF, canintf_reg - 2); //clear the last bit in the register to say that we have read the message
+		}
+	}	
 }
 /*
 can_int_vect(){

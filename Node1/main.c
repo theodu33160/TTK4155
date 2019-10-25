@@ -8,6 +8,7 @@
 #include "SPI.h"
 #include "CAN.h"
 
+
 #define RAM_SLIDER_RIGHT 0x0
 #define RAM_SLIDER_LEFT  0x1
 #define RAM_JOY_X 0x2
@@ -26,7 +27,7 @@ int main(void)
  uint8_t *ext_mem=(uint8_t) 0;
 
 	cli();
-	DDRB = 0xFF;
+	DDRB = 0xFF; // all pins in the port B act as outputs
 	USART_Init ( MYUBRR );
 	fdevopen(USART_Transmit, USART_Receive);
 	extern FILE* uart ;
@@ -64,27 +65,47 @@ int main(void)
     //Self test of the SPI driver
 
 
-/* SPI and Can Controller exercise*/
+
 
 	//mcp2515_init(MODE_CONFIG);
-	mcp2515_init(MODE_LOOPBACK);
+	//mcp2515_init(MODE_NORMAL);
 
 
 	
-	can_init(MODE_LOOPBACK);
+	can_init(MODE_NORMAL);
+
+
 	can_message message;
 	message.id= 3;
 	message.length= 1;
-	message.data[0] = (uint8_t)'U';
+	message.data[0] = (uint8_t)'K';
+
+/*
 	can_message_send(&message);
-	can_message msg;
-	can_data_receive(&msg);
-	  	
-        menu_init();
+	while(!can_transmit_complete);
+	//can_message msg;
+	//can_data_receive(&msg); 
 
-
+/*
+	can_message message1;
+	message1.id= 5;
+	message1.length= 1;
+	message1.data[0] = (uint8_t)'W';
+	can_message_send(&message1);
+	while(!can_transmit_complete);
+	can_message msg1;
+	can_data_receive(&msg1);  
+*/
+		
 	while(1)
 	{
+		can_message_send(&message);
+		while(!can_transmit_complete);
+		printf("message sent: %s\t",message.data);
+		printf("CANINTF register:%x\t", mcp2515_read(MCP_CANINTF)); 
+		printf("EFLG register:%x\n\r", mcp2515_read(MCP_EFLG)); 
+		_delay_ms(1000);
+
 
 		//printJoystick();
   //  _delay_ms(1000);
@@ -106,6 +127,9 @@ int main(void)
 		//printf("sliders L/F %d , %d \n\r", ext_ram[RAM_SLIDER_LEFT],ext_ram[RAM_SLIDER_RIGHT]);
 
 	}
+
+	    menu_init();
+
 
 	//while (true)
 	//{

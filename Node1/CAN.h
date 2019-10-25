@@ -16,6 +16,6 @@ void can_message_send(can_message* msg) ;
 
 void can_data_receive(can_message* msg);
 int can_error();
-int can_transmit_complete();
+_Bool can_transmit_complete();
 
 #endif

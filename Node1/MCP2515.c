@@ -1,9 +1,4 @@
 #include "MCP2515.h"
-#include "SPI.h"
-#include <avr/io.h>
-
-#define F_CPU 4915200
-#include <util/delay.h>
 
 uint8_t mcp2515_init(mode){
 
