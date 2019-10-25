@@ -72,14 +72,12 @@ void can_data_receive(can_message* msg){
 		msg->length = 0b1111 & mcp2515_read(MCP_RXB0DLC);
 		
 		//data
-		uint8_t data[8];
 		uint8_t i;
 		for (i = 0; i < msg->length; i++){
 			msg->data[i] = mcp2515_read(MCP_RXB0D0 + i);  // TXBnDm => n = buffer number and m = data bit
-		
-		printf("Message received: id: %d\t", msg->id);
-		printf("Length: %d\t msg: %s\n\r ", msg->length, msg->data); //We have strange values with the %d and %u for the message
-		mcp2515_write(MCP_CANINTF, canintf_reg - 1); //clear the last bit in the register to say that we have read the message
+			printf("Message received: id: %d\t", msg->id);
+			printf("Length: %d\t msg: %d\n\r ", msg->length, ((int8_t) msg->data[i])*2); //We have strange values with the %d and %u for the message
+			mcp2515_write(MCP_CANINTF, canintf_reg - 1); //clear the last bit in the register to say that we have read the message
 		}
 	}
 	if (status_reg & 0b10){  //RXB1 int
@@ -98,7 +96,7 @@ void can_data_receive(can_message* msg){
 			msg->data[i] = mcp2515_read(MCP_RXB1D0 + i);  // TXBnDm => n = buffer number and m = data bit
 		
 		printf("Message received: id: %d\t", msg->id);
-		printf("Length: %d\t msg: %s\n\r ", msg->length, msg->data); //We have strange values with the %d and %u for the message
+		printf("Length: %d\t msg: %d\n\r ", msg->length, msg->data[i]); //We have strange values with the %d and %u for the message
 		mcp2515_write(MCP_CANINTF, canintf_reg - 2); //clear the last bit in the register to say that we have read the message
 		}
 	}	

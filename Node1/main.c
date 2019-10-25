@@ -2,7 +2,8 @@
 #include "UART.h"
 #include "accessMemory.c"
 #include "usbCard.h"
-//#include "adc.h"
+//#include "adc.h" //trying interrupts
+
 #include "oled.h"
 #include "MCP2515.h"
 #include "SPI.h"
@@ -49,7 +50,7 @@ int main(void)
 
 	//while(1) SRAM_test();
 
-/*initUsbCard();
+initUsbCard();/*
 
 //	initInterrupt();
 //	readADC(0x4);
@@ -74,11 +75,7 @@ int main(void)
 	
 	can_init(MODE_NORMAL);
 
-
-	can_message message;
-	message.id= 3;
-	message.length= 1;
-	message.data[0] = (uint8_t)'K';
+	
 
 /*
 	can_message_send(&message);
@@ -99,6 +96,11 @@ int main(void)
 		
 	while(1)
 	{
+		int8_t angleJTCK=get_angle()/2;
+		can_message message;
+		message.id= 5;
+		message.length= 1;
+		message.data[0] = angleJTCK;
 		can_message_send(&message);
 		while(!can_transmit_complete);
 		printf("message sent: %s\t",message.data);
