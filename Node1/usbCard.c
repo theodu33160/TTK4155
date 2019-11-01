@@ -144,6 +144,16 @@ void readSliders()
 	printf("slider R : %d \t",readADC(RIGHT_SLIDER));
 }
 
+uint8_t get_leftSlider()
+{
+    return readADC(LEFT_SLIDER);
+}
+
+uint8_t get_rightSlider()
+{
+    return readADC(RIGHT_SLIDER);
+}
+
 void readButtons()
 {
 
@@ -194,7 +204,7 @@ _Bool read_button(uint8_t btn)
 	}
 }
 
-uint8_t read_joystick(uint8_t dir)
+uint8_t get_joystick(uint8_t dir)
 {
 	uint8_t result =0;
 	if(dir == DIR_X) result = readADC(DIR_X) - xOffstet;

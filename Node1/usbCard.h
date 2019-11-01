@@ -54,6 +54,9 @@ void printJoystick();
 
 void readSliders();
 
+uint8_t get_leftSlider();
+uint8_t get_rightSlider();
+
 void readButtons();
 
 int xJoystickCalibration();
@@ -62,6 +65,6 @@ int yJoystickCalibration();
 
 _Bool read_button(uint8_t btn);
 
-uint8_t read_joystick(uint8_t dir);
+uint8_t get_joystick(uint8_t dir);
 
 #endif

@@ -191,3 +191,79 @@ initUsbCard();/*
 */
     return 0;
 }
+
+void CAN_send_btns()
+{
+    can_message message;
+    message.id = ID_BTNS;
+    message.length= 1;
+    message.data[0] = read_button(BTN_RIGHT)+read_button(BTN_LEFT)<<1+read_button(BTN_JOYSTICK)<<2;
+    can_message_send(&message);
+    while(!can_transmit_complete);
+}
+
+void CAN_send_left_slider()
+{
+    can_message message;
+    message.id = ID_LEFT_SLIDER;
+    message.length= 1;
+    message.data[0] = get_leftSlider();
+    can_message_send(&message);
+    while(!can_transmit_complete);
+}
+
+void CAN_send_right_slider()
+{
+    can_message message;
+    message.id = ID_RIGHT_SLIDER;
+    message.length= 1;
+    message.data[0] = get_rightSlider();
+    can_message_send(&message);
+    while(!can_transmit_complete);
+}
+
+void CAN_send_XJoystick()
+{
+    can_message message;
+    message.id = ID_JOYSTICK_X;
+    message.length= 1;
+    message.data[0] = get_joystick(DIR_X);
+    can_message_send(&message);
+    while(!can_transmit_complete);
+}
+
+void CAN_send_YJoystick()
+{
+    can_message message;
+    message.id = ID_JOYSTICK_Y;
+    message.length= 1;
+    message.data[0] = get_joystick(DIR_Y);
+    can_message_send(&message);
+    while(!can_transmit_complete);
+}
+
+void CAN_send_magintudeJoystick()
+{
+    can_message message;
+    message.id = ID_JOYSTICK_MAGNITUDE;
+    message.length= 1;
+    message.data[0] = get_magnitude();
+    can_message_send(&message);
+    while(!can_transmit_complete);
+}
+
+void CAN_send_joystick_angle()
+{
+    int8_t angleJTCK = get_angle()/2;
+    can_message message;
+    message.id = ID_JOYSTICK_ANGLE;
+    message.length= 1;
+    message.data[0] = angleJTCK;
+    can_message_send(&message);
+    while(!can_transmit_complete);
+    /*
+    printf("message sent: %s\t",message.data);
+    printf("CANINTF register:%x\t", mcp2515_read(MCP_CANINTF));
+    printf("EFLG register:%x\n\r", mcp2515_read(MCP_EFLG));
+    */
+}
