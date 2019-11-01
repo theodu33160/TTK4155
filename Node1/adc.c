@@ -48,4 +48,5 @@ uint8_t readADC2(uint8_t channel)
 	uint8_t result = ext_adc[0];
 	return result;
 }
-*/
+
+

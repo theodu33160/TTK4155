@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "uart.h": "c",
-        "oled.h": "c"
+        "oled.h": "c",
+        "spi.h": "c"
     }
 }

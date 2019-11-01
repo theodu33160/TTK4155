@@ -1,7 +1,9 @@
 #include "UART.h"
 #include "CAN.h"
+#include "timer.h"
 #include <stdio.h>
-
+#include <avr/io.h>
+#include <avr/interrupt.h>
 
 
 int main(void)
@@ -30,7 +32,7 @@ int main(void)
 
 
 	
-	can_init(MODE_NORMAL);
+	//can_init(MODE_NORMAL);
 
 	// 	mcp2515_write(MCP_CANCTRL, 0xab);
 	// _delay_ms(10);
@@ -39,7 +41,7 @@ int main(void)
 	// printf("data: %x \n\r", data);
 	// _delay_ms(3000);
 
-
+	/*
 	can_message message;
 	message.id= 3;
 	message.length= 1;
@@ -59,15 +61,19 @@ int main(void)
 	can_message msg1;
 	can_data_receive(&msg1);  
 	
-	*/
+	
 	can_message received_message;
-
-
+	*/
+	PWM_init();
+	sei();
+	set_PWM(210);
+	//set_PWM(210);
 	while(1)
 	{
 		//printf("In while\n\r");
-		can_data_receive(&received_message);
+		//can_data_receive(&received_message);
 		_delay_ms(1000);
+		
 		 
 	}
     return 0;
