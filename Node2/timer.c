@@ -36,7 +36,7 @@ void PWM_init()
 
 void set_PWM(uint8_t duty)
 {
-    if ((duty > 89)&&(duty <211))
+    if ((duty >= 70)&&(duty <= 200))
     {
         uint16_t ocr = duty*20;
         OCR1AH = (ocr&0xFF00)>>8;
@@ -47,6 +47,11 @@ void set_PWM(uint8_t duty)
         printf("OCR1AL:  %d\n\r",OCR1AL);
         printf("duty OK \n\r");
     }
+}
+
+void set_servo(int8_t xJoystick)
+{
+    set_PWM(uint8_t 130/200*(xJoystick+100)+70); //with xJoystick from -100 to +100
 }
 
 void normal_mode()

@@ -29,9 +29,7 @@ void SPI_write(char cData){
 	SPDR = cData;
 
 	/* Wait for transmission complete */
-	while(!(SPSR & (1<<SPIF)))
-		printf("w");
-	
+	while(!(SPSR & (1<<SPIF)));	
 }
 
 

@@ -13,7 +13,7 @@
 //#include <interrupt.h>
 
 
-#define THRESHOLD 50
+#define THRESHOLD 0
 #define DIR_Y 0x7
 #define DIR_X 0x6
 #define LEFT_SLIDER 0x5

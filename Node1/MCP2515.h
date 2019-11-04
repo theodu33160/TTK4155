@@ -1,5 +1,6 @@
 #ifndef __MCP2515_H
 #define __MCP2515_H
+
 #include "SPI.h"
 #include <avr/io.h>
 #include <stdint.h>
@@ -69,6 +70,10 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_RXB0SIDH	0x61
 #define MCP_RXB1CTRL	0x70
 #define MCP_RXB1SIDH	0x71
+#define MCP_RXB1SIDL	0x72
+#define MCP_RXB1DLC     0x75
+#define MCP_RXB1D0      0x76
+
 //added
 //   MCP_TXB0SIDH MCP_TXB0SIDL MCP_TXB0DLC MCP_TXB0D0 MCP_RXB0SIDL MCP_RXB0DLC MCP_RXB0D0
 #define MCP_TXB0SIDH 0x31
