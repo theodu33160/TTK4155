@@ -1,6 +1,7 @@
 #ifndef __MCP2515_H
 #define __MCP2515_H
 
+#include <stdint.h>
 #include "SPI.h"
 #include <avr/io.h>
 #include <util/delay.h>
