@@ -59,7 +59,7 @@ void can_data_receive(can_message* msg){
 	//wait for a received message
 	mcp2515_write(MCP_CANINTE, 0b1); 	//enable interrupt pin
 	int canintf_reg = mcp2515_read(MCP_CANINTF);   //read status register
-	int status_reg = (canintf_reg & 0b1); 
+	int status_reg = (canintf_reg & 0b1);
 	if (status_reg==1){
 		//read message
 		//id 

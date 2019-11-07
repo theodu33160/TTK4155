@@ -1,13 +1,13 @@
 #include "CAN_ID.h"
 #include <avr/interrupt.h>
 #include "UART.h"
-#include "accessMemory.c"
+//#include "accessMemory.c" //induce mistake in uart come since we added node 2
 #include "usbCard.h"
 //#include "adc.h" //trying interrupts
 #include "oled.h"
 #include "MCP2515.h"
 #include "SPI.h"
-#include "CAN.h"
+#include "CAN.h" 
 
 
 
@@ -28,12 +28,11 @@ int main(void)
  uint8_t* ext_adc = (uint8_t) 0x400;
  uint8_t *ext_mem=(uint8_t) 0;
 
-	cli();
+	//cli();
 	DDRB = 0xFF; // all pins in the port B act as outputs
 	USART_Init ( MYUBRR );
 	fdevopen(USART_Transmit, USART_Receive);
 	extern FILE* uart ;
-	printf("0");
 	printf("hei\n\r");
 
 	//initialisation for SRAM 
@@ -52,56 +51,17 @@ int main(void)
 	//while(1) SRAM_test();
 
 	initUsbCard();
-/*
-
-//	initInterrupt();
-//	readADC(0x4);
-
-	  OLED_init();
-  	OLED_home();
-  	OLED_black();
-  	OLED_home();
-
-  	menu_displayMainPage();
-	  menu_navigate();*/
-
-    //Self test of the SPI driver
-
-
-
-
-	//mcp2515_init(MODE_CONFIG);
-	//mcp2515_init(MODE_NORMAL);
-
 
 	
 	can_init(MODE_NORMAL);
 
 	
-
-/*
-	can_message_send(&message);
-	while(!can_transmit_complete);
-	//can_message msg;
-	//can_data_receive(&msg); 
-
-/*
-	can_message message1;
-	message1.id= 5;
-	message1.length= 1;
-	message1.data[0] = (uint8_t)'W';
-	can_message_send(&message1);
-	while(!can_transmit_complete);
-	can_message msg1;
-	can_data_receive(&msg1);  
-*/
-		
 	while(1)
 	{
-		/*
-		int8_t angleJTCK=get_angle()/2;
+		_delay_ms(1000);
+		int8_t angleJTCK= 10; //get_angle()/2;
 		can_message message;
-		message.id= 5;
+		message.id= 106;
 		message.length= 1;
 		message.data[0] = angleJTCK;
 		can_message_send(&message);
@@ -109,11 +69,13 @@ int main(void)
 		printf("message sent: %s\t",message.data);
 		printf("CANINTF register:%x\t", mcp2515_read(MCP_CANINTF)); 
 		printf("EFLG register:%x\n\r", mcp2515_read(MCP_EFLG)); 
-		*/
-	
-	//	CAN_send_joystick_angle();
 		_delay_ms(1000);
-
+		can_message msg;
+		can_data_receive(&msg);
+	
+		//CAN_send_joystick_angle();
+		
+/*
 
 		//printJoystick();
   //  _delay_ms(1000);
@@ -136,7 +98,7 @@ int main(void)
 
 	}
 
-	    menu_init();
+	    //menu_init();
 
 
 	//while (true)

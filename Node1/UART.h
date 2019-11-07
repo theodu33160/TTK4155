@@ -1,9 +1,11 @@
-#ifndef UART_H
-#define UART_H
-
 #ifndef F_CPU
 #define F_CPU 4962000UL // 16 MHz clock speed
 #endif
+
+/*#ifndef UART_H
+#define UART_H*/
+
+
 
 
 #define FOSC 4962000// Clock Speed
@@ -20,4 +22,4 @@ void USART_Init( unsigned int ubrr );
 int USART_Transmit( unsigned char data, FILE *file );
 int USART_Receive( FILE *file );
 
-#endif
+/*#endif*/

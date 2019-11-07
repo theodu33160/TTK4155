@@ -1,11 +1,11 @@
 #include "UART.h"
 #include "CAN.h"
 #include "CAN_ID.h"
-#include "timer.h"
+//#include "timer.h"
 #include <stdio.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
-
+//#include <avr/io.h>
+//#include <avr/interrupt.h>
+ 
 int main(void)
 {
 	DDRB = 0xFF; // all pins in the port B act as outputs
@@ -41,13 +41,14 @@ int main(void)
 	{
 		can_data_receive(&received_message);
 		print_message(&received_message);
+		_delay_ms(2000);
 	}
 
-	PWM_init();
-	sei(); 
-	set_PWM(80); //in 10µs (claires)
+	//PWM_init();
+	//sei(); 
+	//set_PWM(80); //in 10µs (claires)
 	
-	while(1)
+	/*hile(1)
 	{
 		//printf("In while\n\r");
 		//can_data_receive(&received_message);
@@ -56,6 +57,6 @@ int main(void)
 		_delay_ms(2000);
 		set_PWM(70);
 		 
-	}
+	}*/
     return 0;
 }
