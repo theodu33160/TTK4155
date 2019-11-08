@@ -24,15 +24,12 @@ int main(void)
 	can_message received_message;
 		
 	while(1)
-	{
-		printf("\n\rread message\t");
+	{	printf("\n\r");
 		can_data_receive(&received_message);
 		if(received_message.id == ID_JOYSTICK_X)
 		{
 			set_servo(received_message.data);
 		}
-
-		printf("adc %d",ADC_read());
 		if (ADC_read()<500)
 		{
 			if (!ball_lost)
@@ -46,7 +43,7 @@ int main(void)
 		{
 			ball_lost = 0;
 		}
-		_delay_ms(100);
+		_delay_ms(6);
 	}
 
 

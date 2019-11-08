@@ -70,7 +70,7 @@ int main(void)
 		printf("message sent: %s\t",message.data);
 		printf("CANINTF register:%x\t", mcp2515_read(MCP_CANINTF)); 
 		printf("EFLG register:%x\n\r", mcp2515_read(MCP_EFLG)); */
-		_delay_ms(25);
+		_delay_ms(3);
 		
 		//can_message msg;
 		//can_data_receive(&msg);
