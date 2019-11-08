@@ -150,7 +150,7 @@ void CAN_send_YJoystick()
     can_message message;
     message.id = ID_JOYSTICK_Y;
     message.length= 1;
-    message.data[0] = get_joystick(DIR_Y);
+    message.data[0] = get_joystick(DIR_Y+128);
     can_message_send(&message);
     while(!can_transmit_complete);
 }
@@ -167,7 +167,7 @@ void CAN_send_magintudeJoystick()
 
 void CAN_send_joystick_angle()
 {
-   	int8_t angleJTCK = get_angle()/2;
+   	uint8_t angleJTCK = get_angle()/2+128;
     can_message message;
     message.id = ID_JOYSTICK_ANGLE;
     message.length= 1;
@@ -188,6 +188,10 @@ void print_message(can_message* msg)
 	{
 		printf("%s",USB_list_name[msg->id-100]);
 		data = data - 128* (int)USB_list_offset[msg->id-100];
+	}
+	if (msg->id == ID_JOYSTICK_ANGLE) // be carefull to put the multiplication by two after reøoving the offset
+	{
+		data = data *2;
 	}
 	printf("Length: %d\t msg: %d\n\r ", msg->length,  data); //We have strange values with the %d and %u for the message	
 }

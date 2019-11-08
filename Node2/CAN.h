@@ -12,7 +12,7 @@
 typedef struct can_message_t{
 	unsigned int id;
 	uint8_t length;
-	uint8_t data[8];
+	int data;
 } can_message;
 
 void can_init(int mode);
