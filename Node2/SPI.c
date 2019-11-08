@@ -24,14 +24,16 @@ void SPI_MasterInit(void){
 
 
 
+
 void SPI_write(char cData){
-	/* Start transmission */
+	// Start transmission 
 	SPDR = cData;
 
-	/* Wait for transmission complete */
+	// Wait for transmission complete 
 	while(!(SPSR & (1<<SPIF)))
-		printf("w");
-	
+	{
+		_delay_us(100);
+	}
 }
 
 

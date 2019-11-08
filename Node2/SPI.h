@@ -4,6 +4,7 @@
 #include <avr/io.h>
 //#include <avr/common.h>
 #include <stdio.h>
+#include <util/delay.h>
 
 
 #define DDR_SPI DDRB

@@ -58,6 +58,7 @@ int main(void)
 	
 	while(1)
 	{
+		/*
 		_delay_ms(1000);
 		int8_t angleJTCK= 10; //get_angle()/2;
 		can_message message;
@@ -68,15 +69,16 @@ int main(void)
 		while(!can_transmit_complete);
 		printf("message sent: %s\t",message.data);
 		printf("CANINTF register:%x\t", mcp2515_read(MCP_CANINTF)); 
-		printf("EFLG register:%x\n\r", mcp2515_read(MCP_EFLG)); 
-		_delay_ms(1000);
-		/*
-		can_message msg;
-		can_data_receive(&msg);
-	
-		//CAN_send_joystick_angle();
+		printf("EFLG register:%x\n\r", mcp2515_read(MCP_EFLG)); */
+		_delay_ms(25);
 		
-/*
+		//can_message msg;
+		//can_data_receive(&msg);
+	
+		CAN_send_XJoystick();
+		//printf("message sent\n\r");
+		
+
 
 		//printJoystick();
   //  _delay_ms(1000);

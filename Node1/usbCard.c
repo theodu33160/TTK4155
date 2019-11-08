@@ -204,12 +204,14 @@ _Bool read_button(uint8_t btn)
 	}
 }
 
-uint8_t get_joystick(uint8_t dir)
+int8_t get_joystick(uint8_t dir)
 {
-	uint8_t result =0;
+	int result =0;
 	if(dir == DIR_X) result = readADC(DIR_X) - xOffstet;
 	else if(dir==DIR_Y) result = readADC(DIR_Y) - yOffstet;
 	else printf("error, unknown direction");
-	result = (int) result/1.275;
+	//printf("adc - offset %d\t\t", result);
+	result = (int8_t) (result/1.275);
+	//printf("adc scaled %d\t\t", result);
 	return thresholds(result);
 }

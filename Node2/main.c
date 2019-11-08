@@ -65,9 +65,9 @@ int main(void)
 
 	while(1)
 	{
-		printf("In while\n\r");
+		printf("read message\t");
 		can_data_receive(&received_message);
-		_delay_ms(1000);
+		_delay_ms(25);
 		 
 	}
     return 0;
