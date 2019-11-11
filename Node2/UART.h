@@ -1,9 +1,10 @@
-#ifndef UART_H
-#define UART_H
-
 #ifndef F_CPU
 #define F_CPU 16000000UL // 16 MHz clock speed
 #endif
+
+
+#ifndef UART_H
+#define UART_H
 
 
 #define FOSC 16000000// Clock Speed

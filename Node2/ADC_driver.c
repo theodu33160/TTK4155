@@ -31,6 +31,10 @@ uint16_t ADC_read()
 	//ADCSRA &= ~(1<<ADIF);
 	ADC_data = data_low + (data_high<<8);
 
-	return ADC_data;
-	
+	return ADC_data;	
 }
+/*
+uint16_t ADC_read_filtered(uint8_t nb_measure)
+{
+
+}*/

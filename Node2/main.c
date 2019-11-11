@@ -4,9 +4,26 @@
 #include "ADC_driver.h"
 #include "IR_driver.h"
 #include <stdio.h>
+#include "TWI_Master.h"
+#include "motor.h"
+#include <avr/interrupt.h>
 
 uint8_t score=250;				//Starting score
 _Bool ball_lost = 0;
+
+void blink()
+{
+	uint8_t save_port = PORTH;
+	PORTH = 0xFF;
+	while (1)
+	{
+	PINH = 0xFF;
+	_delay_ms(1100);
+	PINH = 0x00;
+	_delay_ms(1100);
+	}
+	PORTH = save_port;
+}
 
 int main(void)
 {
@@ -20,11 +37,16 @@ int main(void)
 	can_init(MODE_NORMAL);
 	PWM_init();
 	ADC_init();
+	TWI_Master_Initialise();
+	sei(); // enable interrupt for TWI communication
+	motor_init();
+	set_speed(200);// speed out of 255
 
 	can_message received_message;
-		
+
+
 	while(1)
-	{	printf("\n\r");
+	{	printf("\n\r0");
 		can_data_receive(&received_message);
 		if(received_message.id == ID_JOYSTICK_X)
 		{
