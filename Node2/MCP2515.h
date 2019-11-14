@@ -1,3 +1,7 @@
+#ifndef F_CPU
+#define F_CPU 4915200
+#endif
+
 #ifndef __MCP2515_H
 #define __MCP2515_H
 
@@ -5,8 +9,6 @@
 #include "SPI.h"
 #include <avr/io.h>
 #include <util/delay.h>
-
-#define F_CPU 4915200
 
 /*
 mcp2515.h

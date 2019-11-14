@@ -29,28 +29,36 @@ int main(void)
 {
 	DDRB = 0xFF; // all pins in the port B act as outputs
 	USART_Init ( MYUBRR );
-	fdevopen(USART_Transmit, USART_Receive);
 	extern FILE* uart ;
+	fdevopen(USART_Transmit, USART_Receive);
 	printf("START");
 
 
 	can_init(MODE_NORMAL);
 	PWM_init();
 	ADC_init();
-	TWI_Master_Initialise();
-	sei(); // enable interrupt for TWI communication
 	motor_init();
-	set_speed(200);// speed out of 255
 
 	can_message received_message;
 
 
 	while(1)
-	{	printf("\n\r0");
+	{	
+		printf("\n\r0");
 		can_data_receive(&received_message);
-		if(received_message.id == ID_JOYSTICK_X)
+		switch (received_message.id)
 		{
+		case ID_JOYSTICK_X:
 			set_servo(received_message.data);
+			break;
+		//case ID_RIGHT_SLIDER:
+		case ID_JOYSTICK_Y:
+			set_speed(received_message.data);
+			printf("motor power: %d",received_message.data);
+			break;
+		default:
+			printf("no reception or ID unused\n\r");
+			break;
 		}
 		if (ADC_read()<500)
 		{

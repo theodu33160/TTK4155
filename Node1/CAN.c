@@ -142,7 +142,7 @@ void CAN_send_XJoystick()
 	//printf("x joystick = %d\t", get_joystick(DIR_X));
     can_message_send(&message);
     while(!can_transmit_complete);
-	print_message(&message);
+	//print_message(&message);
 }
 
 void CAN_send_YJoystick()
@@ -150,7 +150,7 @@ void CAN_send_YJoystick()
     can_message message;
     message.id = ID_JOYSTICK_Y;
     message.length= 1;
-    message.data[0] = get_joystick(DIR_Y+128);
+    message.data[0] = get_joystick(DIR_Y)+128;
     can_message_send(&message);
     while(!can_transmit_complete);
 }

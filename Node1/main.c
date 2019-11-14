@@ -76,6 +76,12 @@ int main(void)
 		//can_data_receive(&msg);
 	
 		CAN_send_XJoystick();
+		printf("x_Joytick sent\t");
+		CAN_send_YJoystick();
+		printf("y_Joytick sent\t");
+		
+		CAN_send_right_slider();
+		printf("right slider sent\n\r");
 		//printf("message sent\n\r");
 		
 

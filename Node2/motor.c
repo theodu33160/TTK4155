@@ -1,49 +1,35 @@
-// Confguration of the PWM
 #include "motor.h"
-
 
 void motor_init()
 {
-   
-    //Choosing of the Waveform Generation mode
-    TCCR1A |= (1<<WGM11);
-    TCCR1A &= ~(1<<WGM10);
-    TCCR1B |= (1<<WGM12)|(1<<WGM13);
+    TWI_Master_Initialise();
+    sei(); // enable interrupt for TWI communication
+    //set port H as an OUTPUT
+    DDRH = 0xFF;
+    //Enable the motor
+    PORTH |=1<<PH4;
 
-    //Choosing Prescaler to 8
-    TCCR1B &= ~(1<<CS12);
-    TCCR1B |= (1<<CS11);
-    TCCR1B &= ~(1<<CS10);
-
-
-    DDRB |= (1<<PB7); //using pin 13 as output
-
-    //Compare output mode non-inverting
-    TCCR1A |= (1<<COM1A1);
-    TCCR1A &= ~(1<<COM1A0);
-
-   // OCR1AH = 0x00;
-    //OCR1AL = 0xff;
-    
-
-    //Configuring TOP value to 255 = 1 byte. It is the same lengh of sensor data.
-    ICR1H = 0x00;
-    ICR1L = 0x80;
     printf("MOTOR INIT DONE\n\r");
-
-
 }
 
-void set_speed(uint8_t duty) // does speed and direction
+void set_speed(int8_t speed) // does speed and direction
 {
-    if(duty>118 && duty < 138)
+    if(speed <0)
     {
-        OCR1CL = 0; //&0x00FF;
-        PINH |= 1<<PH1 //set the pin DIR to 1
+        PORTH |= 1<<PH1; //set the pin DIR to 1
     }
     else
     {
-        OCR1CL = abs(duty-128);
-        PINH &= ~(1<<PH1) //set the pin DIR to 0
+        PORTH &= ~(1<<PH1); //set the pin DIR to 0
     }
+    uint8_t power = (uint8_t) (abs(speed)*1);
+    //printf("\tpower sent to the motor %d",power);
+    char msg[3] = {0b01011110,0x00,power};
+    TWI_Start_Transceiver_With_Data(msg,(unsigned char) 3);
+    //printf("\terr flag HEX %x\n\r",TWI_Get_State_Info());
+    /*
+    if(TWI_Get_State_Info()!=1) //=1 if no error
+    {
+        printf("communication error with DAC\n\r");
+    }*/
 }

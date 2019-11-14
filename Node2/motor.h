@@ -5,9 +5,11 @@
 #include <avr/io.h>
 #include <stdio.h>
 #include <stdint.h>
-//#include <avr/interrupt.h>
+#include "TWI_Master.h"
+#include <avr/interrupt.h>
+
 
 void motor_init();
-void set_speed(uint8_t duty);
+void set_speed(int8_t speed);
 
 #endif

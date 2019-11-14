@@ -29,7 +29,7 @@ void PWM_init()
     //Configuring TOP value to have a Period of 0.02 s 
     ICR1H = 0x9C;
     ICR1L = 0x40;
-    printf("INIT DONE");
+    printf("PWM INIT DONE\r\n");
 
 
 }

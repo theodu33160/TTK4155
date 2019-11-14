@@ -79,7 +79,7 @@ void TWI_Start_Transceiver_With_Data( unsigned char *msg, unsigned char msgSize 
   unsigned char temp;
 
   while ( TWI_Transceiver_Busy() );             // Wait until TWI is ready for next transmission.
-
+  //printf("TWI_Master not busy");
   TWI_msgSize = msgSize;                        // Number of data to transmit.
   TWI_buf[0]  = msg[0];                         // Store slave address with R/W setting.
   if (!( msg[0] & (TRUE<<TWI_READ_BIT) ))       // If it is a write operation, then also copy data.
@@ -202,7 +202,7 @@ ISR(TWI_vect)
     case TWI_MTX_ADR_NACK:      // SLA+W has been tramsmitted and NACK received
     case TWI_MRX_ADR_NACK:      // SLA+R has been tramsmitted and NACK received    
     case TWI_MTX_DATA_NACK:     // Data byte has been tramsmitted and NACK received
-//    case TWI_NO_STATE              // No relevant state information available; TWINT = “0”
+//    case TWI_NO_STATE              // No relevant state information available; TWINT = ï¿½0ï¿½
     case TWI_BUS_ERROR:         // Bus error due to an illegal START or STOP condition
     default:     
       TWI_state = TWSR;                                 // Store TWSR and automatically sets clears noErrors bit.

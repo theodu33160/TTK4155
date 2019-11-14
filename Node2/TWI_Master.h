@@ -19,10 +19,14 @@
 *                     Include this file in the application.
 *
 ****************************************************************************/
+#ifndef TWI_MASTER_H
+#define TWI_MASTER_H
+
 
 /****************************************************************************
   TWI Status/Control register definitions
 ****************************************************************************/
+
 #define TWI_BUFFER_SIZE 4   // Set this to the largest message size that will be sent including address byte.
 
 #define TWI_TWBR    0x0C        // TWI Bit rate Register setting.
@@ -108,3 +112,4 @@ unsigned char TWI_Get_Data_From_Transceiver( unsigned char *, unsigned char );
 #define TWI_NO_STATE               0xF8  // No relevant state information available; TWINT = �0�
 #define TWI_BUS_ERROR              0x00  // Bus error due to an illegal START or STOP condition
 
+#endif

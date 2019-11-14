@@ -18,7 +18,7 @@ uint8_t mcp2515_init(mode){
 		return 1;
 	}
 	// More initialization
-	else printf("Good configuration\n\r");
+	else printf("MCP well configured\n\r");
 	return 0;
 }
 

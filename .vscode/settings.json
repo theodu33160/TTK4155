@@ -5,6 +5,7 @@
         "spi.h": "c",
         "can.h": "c",
         "can_id.h": "c",
-        "mcp2515.h": "c"
+        "mcp2515.h": "c",
+        "twi_master.h": "c"
     }
 }
