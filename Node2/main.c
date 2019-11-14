@@ -40,21 +40,20 @@ int main(void)
 	motor_init();
 
 	can_message received_message;
-
-
+	
 	while(1)
 	{	
-		printf("\n\r0");
+		printf("\n\r");
 		can_data_receive(&received_message);
-		switch (received_message.id)
+		switch (received_message.id) //this switch allow to manage the data how we want without waiting for them
 		{
 		case ID_JOYSTICK_X:
 			set_servo(received_message.data);
 			break;
 		//case ID_RIGHT_SLIDER:
 		case ID_JOYSTICK_Y:
-			set_speed(received_message.data);
-			printf("motor power: %d",received_message.data);
+			motor_set_speed(received_message.data);
+			//printf("motor power: %d",received_message.data);
 			break;
 		default:
 			printf("no reception or ID unused\n\r");
@@ -73,6 +72,7 @@ int main(void)
 		{
 			ball_lost = 0;
 		}
+		printf("\tencoder: %d",motor_readEncorder());
 		_delay_ms(6);
 	}
 
