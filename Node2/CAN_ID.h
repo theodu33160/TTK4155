@@ -10,6 +10,12 @@
 #define ID_JOYSTICK_MAGNITUDE 105
 #define ID_JOYSTICK_ANGLE 106
 
+#define BTN_RIGHT 0
+#define BTN_LEFT 1
+#define BTN_JOYSTICK 2
+
+
+
 /*
 #define ID_USB_CARD     100
 #define LENGTH_USB_CARD 7

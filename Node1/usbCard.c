@@ -154,15 +154,6 @@ uint8_t get_rightSlider()
     return readADC(RIGHT_SLIDER);
 }
 
-void readButtons()
-{
-
-	_Bool btn1 = PINB & (1 << PB0);
-	_Bool btn2 = PINB & (1 << PB1);
-	_Bool btnJoystick = PINB & (1 << PB2);
-	printf("Button left: %d\t, button right: %d\t button joystick: %d \n\r", btn2, btn1, btnJoystick);
-}
-
 int xJoystickCalibration()
 {
 //	_cli();	// desable ADC interrupt
@@ -184,24 +175,24 @@ int yJoystickCalibration()
 
 _Bool read_button(uint8_t btn)
 {
-	switch(btn){
+	switch(btn)
 	{
-                        case BTN_RIGHT:
-                            return PINB & (1 << PB0);
-                            break;
-                        case BTN_LEFT:
-                           return PINB & (1 << PB1);
-                            break;
-                        case BTN_JOYSTICK:
-                            return PINB & (1 << PB2);
-                            break;
-                        default:
-                            break;
-                    }
-
-	
-		
+	case BTN_RIGHT:
+		return PINB & (1 << PB0);
+		break;
+	case BTN_LEFT:
+		return PINB & (1 << PB1);
+		break;
+	case BTN_JOYSTICK:
+		return PINB & (1 << PB2);
+		break;
+	default:
+		break;
 	}
+}
+uint8_t read_buttons(uint8_t btn)
+{
+	return read_button(BTN_RIGHT)+read_button(BTN_LEFT)<<1+read_button(BTN_JOYSTICK)<<2;
 }
 
 int8_t get_joystick(uint8_t dir)

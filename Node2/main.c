@@ -31,6 +31,7 @@ int main(void)
 
 
 	DDRB = 0xFF; // all pins in the port B act as outputs
+	PORTB |= (1<<PB6); //init solenoïde
 	USART_Init ( MYUBRR );
 	extern FILE* uart ;
 	fdevopen(USART_Transmit, USART_Receive);
@@ -65,9 +66,11 @@ int main(void)
 			temp = (uint8_t)received_message.data*40;
 			printf("slider : %d\t",temp);
 			break;
-		case ID_JOYSTICK_Y:
-			//motor_set_speed(received_message.data);
-			//printf("motor power: %d",received_message.data);
+		case ID_BTNS:
+			printf("toggeling solenoid\t");
+			PORTB &= ~(1<<PB6);
+			_delay_ms(100);
+			PORTB |= (1<<PB6);
 			break;
 		default:
 			printf("no reception or ID unused\n\r");

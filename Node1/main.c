@@ -77,8 +77,11 @@ int main(void)
 	
 		CAN_send_XJoystick();
 		printf("x_Joytick sent\t");
-		CAN_send_YJoystick();
-		printf("y_Joytick sent\t");
+		if(read_buttons()>0)
+		{
+			CAN_send_btns();
+			printf("btns sent\t");
+		}
 		
 		CAN_send_right_slider();
 		printf("right slider sent\n\r");

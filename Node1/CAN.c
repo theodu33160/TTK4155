@@ -108,7 +108,8 @@ void CAN_send_btns()
     can_message message;
     message.id = ID_BTNS;
     message.length= 1;
-    message.data[0] = read_button(BTN_RIGHT)+read_button(BTN_LEFT)<<1+read_button(BTN_JOYSTICK)<<2;
+    message.data[0] = read_buttons();
+	//printf("buttons %d",message.data[0]);
     can_message_send(&message);
     while(!can_transmit_complete);
 }
