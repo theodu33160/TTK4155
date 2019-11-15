@@ -28,7 +28,7 @@ void blink()
 
 int main(void)
 {
-	struct PID_DATA* motor_PID;
+
 
 	DDRB = 0xFF; // all pins in the port B act as outputs
 	USART_Init ( MYUBRR );
@@ -42,23 +42,28 @@ int main(void)
 	ADC_init();
 	motor_init();
 	motor_calibrate();
-	//set_PID((int16_t)1,(int16_t)0,(int16_t)0,motor_PID);
-	pid_Init((int16_t)1,(int16_t)0,(int16_t)0,motor_PID);
+	volatile struct PID_DATA motor_PID;
+	pid_Init((int16_t)4,(int16_t)2,(int16_t)0,&motor_PID);
 	can_message received_message;
 	
 	while(1)
-	{	
-		int temp;
-		printf("\n\r");
+	{
+		int16_t temp;
+	
+		
+		
 		can_data_receive(&received_message);
 		//print_message(&received_message);
+		//printf("PID pointer address %p", motor_PID);
+		//printf("address pointer id msg %p", &received_message);
 		switch (received_message.id) //this switch allow to manage the data how we want without waiting for them
 		{
 		case ID_JOYSTICK_X:
 			set_servo(received_message.data);
 			break;
 		case ID_RIGHT_SLIDER:
-			printf("slider : %d\t",received_message.data);
+			temp = (uint8_t)received_message.data*40;
+			printf("slider : %d\t",temp);
 			break;
 		case ID_JOYSTICK_Y:
 			//motor_set_speed(received_message.data);
@@ -81,12 +86,9 @@ int main(void)
 		{
 			ball_lost = 0;
 		}
-
-		temp = pid_Controller(5000,-motor_readEncorder(),motor_PID);
-		//printf("\toutput PID %d", temp);
-		//printf("\tSomme I %d", motor_PID->sumError);
-		//motor_set_speed(temp);
+		motor_set_speed(pid_Controller(temp,-motor_readEncorder(),&motor_PID));
 		_delay_ms(10);
+		
 	}
 
 

@@ -22,7 +22,7 @@
 
 #include "stdint.h"
 
-#define SCALING_FACTOR 128
+#define SCALING_FACTOR 512
 
 /*! \brief PID Status
  *
@@ -50,17 +50,18 @@ typedef struct PID_DATA {
  * Needed to avoid sign/overflow problems
  */
 // Maximum value of variables
-#define MAX_INT 100
+#define MAX_INT 127
+#define MAX_SUM_ERROR 5120
 //#define MAX_LONG INT32_MAX
-#define MAX_I_TERM 30*SCALING_FACTOR // (MAX_LONG / 2)
+//#define MAX_I_TERM 30*SCALING_FACTOR // (MAX_LONG / 2)
 
 // Boolean values
 #define FALSE 0
 #define TRUE 1
 
 void    pid_Init(int16_t p_factor, int16_t i_factor, int16_t d_factor, struct PID_DATA *pid);
-int16_t pid_Controller(int16_t setPoint, int16_t processValue, struct PID_DATA *pid_st);
+int8_t pid_Controller(int16_t setPoint, int16_t processValue, struct PID_DATA *pid);
 void    pid_Reset_Integrator(struct PID_DATA *pid_st);
 //void set_PID(int16_t P,int16_t I, int16_t D, pidData_t *pid_st);
-
+#define constrain(amt, low, high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 #endif

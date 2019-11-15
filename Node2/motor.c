@@ -32,7 +32,7 @@ void motor_set_speed(int8_t speed) // does speed and direction
     {
         PORTH &= ~(1<<PH1); //set the pin DIR to 0
     }
-    uint8_t power = (uint8_t) (abs(speed)*1);
+    uint8_t power = (uint8_t) (abs(speed)*2);
     //printf("\tpower sent to the motor %d",power);
     char msg[3] = {0b01011110,0x00,power};
     TWI_Start_Transceiver_With_Data(msg,(unsigned char) 3);
@@ -64,7 +64,7 @@ int16_t motor_readEncorder()
 
 void motor_calibrate()
 {
-    motor_set_speed(-100);
+    motor_set_speed(-50);
     _delay_ms(2000);
     motor_resetEncoder();
     motor_set_speed(0);
@@ -73,5 +73,6 @@ void motor_resetEncoder()
 {
     //toggle reset
     PORTH &= ~(1<<PH6);
+    _delay_us(20);
     PORTH |= 1<<PH6;
 }
