@@ -51,9 +51,9 @@ void set_PWM(uint8_t duty)
 
 void set_servo(int xJoystick)
 {
-    uint8_t res = (uint8_t) ((xJoystick+100)*13/20+70);
+    uint8_t res = (uint8_t) ((xJoystick-30)*13/20+70);
     //printf("Xjoys %d\tres%u\t",xJoystick,res);
-    set_PWM(res); //with xJoystick from -100 to +100
+    set_PWM(res); //with xJoystick from 30 to 228
 }
 
 void normal_mode()

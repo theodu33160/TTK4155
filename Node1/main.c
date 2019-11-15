@@ -19,6 +19,28 @@
 #define EXT_RAM 0x800
 #define EXT_ADC 0x1400
 
+#define LENGTH_BUFFER_END_GAME 5
+volatile uint8_t buffer_end_game[LENGTH_BUFFER_END_GAME];
+
+
+void update_left_slider()
+{
+	for(uint8_t i=0;i<LENGTH_BUFFER_END_GAME-1;i++)
+	{
+		buffer_end_game[i]=buffer_end_game[i+1];
+	}
+	buffer_end_game[LENGTH_BUFFER_END_GAME-1] = get_leftSlider();
+	for(uint8_t i=0;i<LENGTH_BUFFER_END_GAME-1;i++)
+	{
+		printf("\tbuffer %dend game %d",i,buffer_end_game[i]);
+		if(buffer_end_game[i]<=buffer_end_game[i+1])
+		{
+			return;
+		}
+	}
+	CAN_send_quit();
+}
+
 
 int main(void)
 {
@@ -51,48 +73,29 @@ int main(void)
 	//while(1) SRAM_test();
 
 	initUsbCard();
-
+	OLED_init();
 	
 	can_init(MODE_NORMAL);
 
+	menu_init();
 	
 	while(1)
 	{
-		/*
-		_delay_ms(1000);
-		int8_t angleJTCK= 10; //get_angle()/2;
-		can_message message;
-		message.id= 106;
-		message.length= 1;
-		message.data[0] = angleJTCK;
-		can_message_send(&message);
-		while(!can_transmit_complete);
-		printf("message sent: %s\t",message.data);
-		printf("CANINTF register:%x\t", mcp2515_read(MCP_CANINTF)); 
-		printf("EFLG register:%x\n\r", mcp2515_read(MCP_EFLG)); */
-		_delay_ms(40);
-		
-		//can_message msg;
-		//can_data_receive(&msg);
-	
-		CAN_send_XJoystick();
+		CAN_send_XJoystick(10); //parameter is how much we want to filter the ADC value
 		printf("x_Joytick sent\t");
+
+		update_left_slider();
 		if(read_buttons()>0)
 		{
 			CAN_send_btns();
 			printf("btns sent\t");
-		}
-		
+		}	
 		CAN_send_right_slider();
 		printf("right slider sent\n\r");
 		printf("value sent : %d\t", get_rightSlider());
-		//printf("message sent\n\r");
 		
 
 
-		//printJoystick();
-  //  _delay_ms(1000);
-		//readSliders();
 		//_Bool btn1 = PINB & (1 << PB0);
 		//_Bool btn2 = PINB & (1 << PB1);
 		/* printf("set screen to black");
@@ -108,10 +111,10 @@ int main(void)
 
 		//_delay_ms(1000);
 		//printf("sliders L/F %d , %d \n\r", ext_ram[RAM_SLIDER_LEFT],ext_ram[RAM_SLIDER_RIGHT]);
-
+		_delay_ms(25);
 	}
 
-	    //menu_init();
+	    
 
 
 	//while (true)

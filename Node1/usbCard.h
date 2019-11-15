@@ -53,5 +53,6 @@ int yJoystickCalibration();
 _Bool read_button(uint8_t btn);
 int8_t readButtons();
 int8_t get_joystick(uint8_t dir);
+int8_t get_joystick_filtered(uint8_t dir,uint8_t n);
 
 #endif

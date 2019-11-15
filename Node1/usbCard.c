@@ -91,13 +91,15 @@ uint8_t get_direction()
 {
 	uint8_t x= get_x();
 	uint8_t y= get_y();
+	printf("\n\rx %u, y %u",x,y);
 	uint8_t dir;
 	uint8_t mag = get_magnitude();
 	int angle = get_angle();
-	if (mag == 0)
+	if (mag <= 50)
 	{
 		dir = NEUTRAL;
-	}else
+	}
+	else
 	{
 		if (45 <= angle && angle < 135)
 		{
@@ -205,4 +207,17 @@ int8_t get_joystick(uint8_t dir)
 	result = (int8_t) (result/1.275);
 	//printf("adc scaled %d\t\t", result);
 	return thresholds(result);
+}
+
+int8_t get_joystick_filtered(uint8_t dir,uint8_t n)
+{
+	int16_t temp = 0;
+	for(int i =0;i<n;i++)
+	{
+		temp+= get_joystick(dir);
+		_delay_us(100);
+	}
+	return (int8_t) (temp/n);
+
+
 }

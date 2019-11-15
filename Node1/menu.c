@@ -2,7 +2,7 @@
 
 //-------default settings :
 volatile uint8_t difficulty = 1;
-char* characters[NB_CHARACTERS] = {"Mario","Peach","Luigy","Browser","inaki"};
+char* characters[NB_CHARACTERS] = {"Mario","Peach","Luigy","inaki","claire"};
 
 void menu_init()
 {
@@ -17,6 +17,10 @@ void menu_init()
     _delay_ms(1500);
     OLED_printf("Touch Joystick");
     while(checkJoystick()==NEUTRAL)
+    {
+        _delay_ms(10);
+    }
+    while(!checkJoystick()==NEUTRAL)
     {
         _delay_ms(10);
     }
@@ -66,7 +70,7 @@ void menu_displayMainPage()
     OLED_pos(2,0);
     OLED_printf("1 Settings"); //Settings
     OLED_pos(3,0);
-    OLED_printf("2 Choose character"); //Play
+    OLED_printf("2 Choose character"); //Choose character
     OLED_pos(4,0);
     OLED_printf("3 Play"); //Play
     OLED_pos(5,0);
@@ -83,14 +87,14 @@ uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu)
     _Bool actionAllowed = true;
     uint8_t action = NEUTRAL;
 
-    while(1)
+   while(1)
     {
         action = checkJoystick();
         if(action==NEUTRAL) actionAllowed = true;
         if(actionAllowed)
         {
             switch(action)
-            {
+                {
                 case DOWN:
                     OLED_pos(menu_pos + firstLine,0);
                     write_char(menu_pos+49);
@@ -110,7 +114,9 @@ uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu)
                     write_char_inv(menu_pos + 49);
                     actionAllowed=false;
                     break;
-
+                case LEFT:
+                    menu_main();
+                    break;
                 case RIGHT:
                 case PUSH:
                     return menu_pos;
@@ -123,6 +129,7 @@ uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu)
         }
     }
 }
+
 
 uint8_t checkJoystick()
 {//this function should check if we use the joystick
@@ -196,14 +203,15 @@ void start_game()
         OLED_printf(".");
         _delay_ms(200);
     }
+    /*
     while(1)
     {
-	if(checkJoystick()==LEFT)
-	{
-            menu_main();
-	}
+        if(checkJoystick()==LEFT)
+        {
+                menu_main();
+        }
     }
-
+*/
 }
 
 void showLeaderBoard()

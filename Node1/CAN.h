@@ -29,9 +29,10 @@ void print_message(can_message* msg);
 void CAN_send_btns();
 void CAN_send_left_slider();
 void CAN_send_right_slider();
-void CAN_send_XJoystick();
-void CAN_send_YJoystick();
+void CAN_send_XJoystick(uint8_t n);
+void CAN_send_YJoystick(uint8_t n);
 void CAN_send_magintudeJoystick();
 void CAN_send_joystick_angle();
+void CAN_send_quit();
 
 #endif

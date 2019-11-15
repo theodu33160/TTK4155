@@ -134,24 +134,24 @@ void CAN_send_right_slider()
     while(!can_transmit_complete);
 }
 
-void CAN_send_XJoystick()
+void CAN_send_XJoystick(uint8_t n)
 {
     can_message message;
     message.id = ID_JOYSTICK_X;
     message.length= 1;
-    message.data[0] = get_joystick(DIR_X)+128;
+    message.data[0] = get_joystick_filtered(DIR_X, n)+128;
 	//printf("x joystick = %d\t", get_joystick(DIR_X));
     can_message_send(&message);
     while(!can_transmit_complete);
 	//print_message(&message);
 }
 
-void CAN_send_YJoystick()
+void CAN_send_YJoystick(uint8_t n)
 {
     can_message message;
     message.id = ID_JOYSTICK_Y;
     message.length= 1;
-    message.data[0] = get_joystick(DIR_Y)+128;
+    message.data[0] = get_joystick_filtered(DIR_Y,n)+128;
     can_message_send(&message);
     while(!can_transmit_complete);
 }
@@ -179,6 +179,16 @@ void CAN_send_joystick_angle()
 //    printf("message sent: %s\t",message.data);
   //  printf("CANINTF register:%x\t", mcp2515_read(MCP_CANINTF));
     //printf("EFLG register:%x\n\r", mcp2515_read(MCP_EFLG));
+}
+
+void CAN_send_quit()
+{
+	can_message message;
+    message.id = ID_QUIT;
+    message.length= 1;
+    message.data[0] = 0;
+    can_message_send(&message);
+    while(!can_transmit_complete);
 }
 
 void print_message(can_message* msg)
