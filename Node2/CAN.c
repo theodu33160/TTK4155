@@ -65,7 +65,6 @@ void can_data_receive(can_message* msg)
 		msg->id = (id_h << 3) + (id_l>>5);
 		msg->length = 0b1111 & mcp2515_read(MCP_RXB0DLC);
 		msg->data = mcp2515_read(MCP_RXB0D0);  // TXBnDm => n = buffer number and m = data bit
-		print_message(msg);
 		mcp2515_write(MCP_CANINTF, canintf_reg - 1); //clear the last bit in the register to say that we have read the message	
 	}
 	if (status_reg & 0b10){  //RXB1 int
@@ -77,7 +76,6 @@ void can_data_receive(can_message* msg)
 
 		msg->length = 0b1111 & mcp2515_read(MCP_RXB1DLC);
 		msg->data = mcp2515_read(MCP_RXB1D0 );  // TXBnDm => n = buffer number and m = data bit
-		print_message(msg);
 		mcp2515_write(MCP_CANINTF, canintf_reg - 2); //clear the last bit in the register to say that we have read the message
 		
 	}	

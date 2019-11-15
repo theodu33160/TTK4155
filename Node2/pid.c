@@ -12,15 +12,18 @@
 void pid_Init(int16_t p_factor, int16_t i_factor, int16_t d_factor, struct PID_DATA *pid)
 {
 	// Start values for PID controller
+	printf("P I D : %d ; %d ; %d",pid->P_Factor,pid->I_Factor,pid->D_Factor);
 	pid->sumError         = 0;
 	pid->lastProcessValue = 0;
 	// Tuning constants for PID loop
-	pid->P_Factor = p_factor;
-	pid->I_Factor = i_factor;
-	pid->D_Factor = d_factor;
+	pid->P_Factor = 1;
+	pid->I_Factor = 0;
+	pid->D_Factor = 0;
 	// Limits to avoid overflow
-	pid->maxError    = MAX_INT / (pid->P_Factor + 1);
-	pid->maxSumError = MAX_I_TERM / (pid->I_Factor + 1);
+	//pid->maxError    = MAX_INT / (pid->P_Factor + 1);
+	//pid->maxSumError = MAX_I_TERM / (pid->I_Factor + 1);
+	printf("PID INIT DONE");
+	printf("P I D : %d ; %d ; %d",pid->P_Factor,pid->I_Factor,pid->D_Factor);
 }
 
 /*! \brief PID control algorithm.
@@ -33,6 +36,16 @@ void pid_Init(int16_t p_factor, int16_t i_factor, int16_t d_factor, struct PID_D
  */
 int16_t pid_Controller(int16_t setPoint, int16_t processValue, struct PID_DATA *pid_st)
 {
+	printf("INSIDE CONTROLLER \t");
+	printf("\n\rP I D : %d ; %d ; %d",pid_st->P_Factor,pid_st->I_Factor,pid_st->D_Factor);
+	int16_t error = setPoint-processValue;
+	pid_st->sumError = pid_st->sumError + pid_st->I_Factor*error;
+	int16_t ret = pid_st->P_Factor * error + pid_st->sumError;
+	printf("\n\rencoder%d\terror %d\tsumError %d\touput PID%d\t",processValue, error,(int16_t) (pid_st->sumError/SCALING_FACTOR),(int16_t) (ret/SCALING_FACTOR));
+	return (int16_t) (ret/SCALING_FACTOR);
+}
+
+/*{
 	int16_t errors, p_term, d_term;
 	int32_t i_term, ret, temp;
 
@@ -40,7 +53,7 @@ int16_t pid_Controller(int16_t setPoint, int16_t processValue, struct PID_DATA *
 
 	// Calculate Pterm and limit error overflow
 	if (errors > pid_st->maxError) {
-		p_term = MAX_INT;
+		p_te▒▒▒▒▒rm = MAX_INT;
 	} else if (errors < -pid_st->maxError) {
 		p_term = -MAX_INT;
 	} else {
@@ -48,7 +61,7 @@ int16_t pid_Controller(int16_t setPoint, int16_t processValue, struct PID_DATA *
 	}
 
 	// Calculate Iterm and limit integral runaway
-	temp = pid_st->sumError + errors;
+	temp = pid_st->sumError + pid_st->I_Factor* errors;
 	if (temp > pid_st->maxSumError) {
 		i_term           = MAX_I_TERM;
 		pid_st->sumError = pid_st->maxSumError;
@@ -57,7 +70,7 @@ int16_t pid_Controller(int16_t setPoint, int16_t processValue, struct PID_DATA *
 		pid_st->sumError = -pid_st->maxSumError;
 	} else {
 		pid_st->sumError = temp;
-		i_term           = pid_st->I_Factor * pid_st->sumError;
+		i_term           = pid_st->sumError; //warning
 	}
 
 	// Calculate Dterm
@@ -65,7 +78,7 @@ int16_t pid_Controller(int16_t setPoint, int16_t processValue, struct PID_DATA *
 
 	pid_st->lastProcessValue = processValue;
 
-	ret = (p_term + i_term + d_term) / SCALING_FACTOR;
+	ret = (p_term + i_term + d_term) /SCALING_FACTOR;
 	if (ret > MAX_INT) {
 		ret = MAX_INT;
 	} else if (ret < -MAX_INT) {
@@ -74,12 +87,30 @@ int16_t pid_Controller(int16_t setPoint, int16_t processValue, struct PID_DATA *
 
 	return ((int16_t)ret);
 }
-
+*/
 /*! \brief Resets the integrator.
  *
  *  Calling this function will reset the integrator in the PID regulator.
  */
-void pid_Reset_Integrator(pidData_t *pid_st)
+void pid_Reset_Integrator(struct PID_DATA* pid_st)
 {
 	pid_st->sumError = 0;
 }
+/*
+void set_PID(int16_t P,int16_t I, int16_t D, pidData_t* pid_st)
+{// Homemade version of Init
+printf("DDDDDDDDDDDDDDDDD%d",D);
+	pid_st->lastProcessValue=0;
+	pid_st->sumError=0;
+	pid_st->P_Factor=P;
+	pid_st->I_Factor=I;
+	pid_st->D_Factor=D;
+	pid_st->maxError    = MAX_INT / (pid_st->P_Factor + 1);
+	pid_st->maxSumError = MAX_I_TERM / (pid_st->I_Factor + 1);
+	printf("P I D : %d ; %d ; %d",pid_st->P_Factor,pid_st->I_Factor,pid_st->D_Factor);
+}
+/*
+void print_PID(pidData_t* pid_st)
+{
+	printf("\n\rerror)
+}*/

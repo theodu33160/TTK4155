@@ -47,7 +47,7 @@ void motor_set_speed(int8_t speed) // does speed and direction
 int16_t motor_readEncorder()
 {//according to the datasheet of the motor box
     uint8_t res_low = 0;
-    uint8_t res_high = 0;    
+    int8_t res_high = 0;    
     PORTH &= ~(1<<PH5); //set !OE to LOW
     PORTH &= ~(1<<PH3); //set SEL to LOW to get high byte
     _delay_us(20);
@@ -60,4 +60,18 @@ int16_t motor_readEncorder()
     PORTH |= (1<<PH6);*/
     PORTH |= (1<<PH5); //set !OE to HIGH: Desable
     return ((res_high<<8) | res_low);
+}
+
+void motor_calibrate()
+{
+    motor_set_speed(-100);
+    _delay_ms(2000);
+    motor_resetEncoder();
+    motor_set_speed(0);
+}
+void motor_resetEncoder()
+{
+    //toggle reset
+    PORTH &= ~(1<<PH6);
+    PORTH |= 1<<PH6;
 }

@@ -13,5 +13,7 @@
 void motor_init();
 void motor_set_speed(int8_t speed);
 int16_t motor_readEncorder();
+void motor_resetEncoder();
+void motor_calibrate();
 
 #endif
