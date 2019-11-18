@@ -51,7 +51,7 @@ int main(void)
 	ADC_init();
 	motor_init();
 	motor_calibrate();
-	struct PID_DATA motor_PID;
+	volatile struct PID_DATA motor_PID;
 	pid_Init((int16_t)4,(int16_t)2,(int16_t)0,&motor_PID);
 	
 	while(1)

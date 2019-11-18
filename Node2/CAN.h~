@@ -10,7 +10,7 @@
 
 
 typedef struct can_message_t{
-	uint8_t id;
+    unsigned uint8_t id;
 	uint8_t length;
 	int data;
 } can_message;
