@@ -1,28 +1,24 @@
-#include "CAN_ID.h"
 #include <avr/interrupt.h>
+#include "CAN_ID.h"
 #include "UART.h"
 //#include "accessMemory.c" //induce mistake in uart come since we added node 2
 #include "usbCard.h"
-//#include "adc.h" //trying interrupts
 #include "oled.h"
 #include "MCP2515.h"
 #include "SPI.h"
 #include "CAN.h" 
 
-
-
 #define RAM_SLIDER_RIGHT 0x0
 #define RAM_SLIDER_LEFT  0x1
 #define RAM_JOY_X 0x2
 #define RAM_JOY_Y 0x3
-
 #define EXT_RAM 0x800
 #define EXT_ADC 0x1400
-
 #define LENGTH_BUFFER_END_GAME 5
+
 volatile uint8_t buffer_end_game[LENGTH_BUFFER_END_GAME];
 
-
+// Function to manage the left slider, responsible of quitting the game
 void update_left_slider()
 {
 	for(uint8_t i=0;i<LENGTH_BUFFER_END_GAME-1;i++)
@@ -41,21 +37,17 @@ void update_left_slider()
 	CAN_send_quit();
 }
 
-
 int main(void)
 {
-
-
- uint8_t* ext_ram = (uint8_t) 0x800;
- uint8_t* ext_adc = (uint8_t) 0x400;
- uint8_t *ext_mem=(uint8_t) 0;
+ 	uint8_t* ext_ram = (uint8_t) 0x800;
+ 	uint8_t* ext_adc = (uint8_t) 0x400;
+ 	uint8_t *ext_mem=(uint8_t) 0;
 
 	//cli();
 	DDRB = 0xFF; // all pins in the port B act as outputs
 	USART_Init ( MYUBRR );
 	fdevopen(USART_Transmit, USART_Receive);
 	extern FILE* uart ;
-	printf("hei\n\r");
 
 	//initialisation for SRAM 
 	MCUCR |= 1 << SRE; // enable external memory

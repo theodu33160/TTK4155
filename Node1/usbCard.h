@@ -41,18 +41,19 @@ uint8_t readADC(uint8_t channel);
 int8_t thresholds(int8_t dir);
 int8_t get_x();
 int8_t get_y();
-int get_angle();
+int16_t get_angle();
 uint8_t get_direction();
 uint8_t get_magnitude();
 void printJoystick();
 void readSliders();
 uint8_t get_leftSlider();
 uint8_t get_rightSlider();
-int xJoystickCalibration();
-int yJoystickCalibration();
+uint xJoystickCalibration();
+uint yJoystickCalibration();
 _Bool read_button(uint8_t btn);
 int8_t readButtons();
 int8_t get_joystick(uint8_t dir);
 int8_t get_joystick_filtered(uint8_t dir,uint8_t n);
+
 
 #endif
