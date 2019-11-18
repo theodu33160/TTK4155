@@ -1,12 +1,3 @@
-#ifndef __MCP2515_H
-#define __MCP2515_H
-
-#include "SPI.h"
-#include <avr/io.h>
-#include <stdint.h>
-
-#define F_CPU 4915200
-#include <util/delay.h>
 /*
 mcp2515.h
 
@@ -19,8 +10,19 @@ v1.00       2003/12/11  Initial release
 Copyright 2003 Kimberly Otten Software Consulting
 */
 
-// Define MCP2515 register addresses
+#ifndef F_CPU
+#define F_CPU 4915200
+#endif
 
+#ifndef __MCP2515_H
+#define __MCP2515_H
+
+#include "SPI.h"
+#include <avr/io.h>
+#include <stdint.h>
+#include <util/delay.h>
+
+// Define MCP2515 register addresses
 #define MCP_RXF0SIDH	0x00
 #define MCP_RXF0SIDL	0x01
 #define MCP_RXF0EID8	0x02
@@ -74,8 +76,7 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_RXB1DLC     0x75
 #define MCP_RXB1D0      0x76
 
-//added
-//   MCP_TXB0SIDH MCP_TXB0SIDL MCP_TXB0DLC MCP_TXB0D0 MCP_RXB0SIDL MCP_RXB0DLC MCP_RXB0D0
+//added to communicate with the MCP2551
 #define MCP_TXB0SIDH 0x31
 #define MCP_TXB0SIDL 0x32
 #define MCP_TXB0DLC 0x35
@@ -83,28 +84,21 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_RXB0SIDL 0x62
 #define MCP_RXB0DLC 0x65
 #define MCP_RXB0D0 0x66
-
-
 #define MCP_TX_INT		0x1C		// Enable all transmit interrupts
 #define MCP_TX01_INT	0x0C		// Enable TXB0 and TXB1 interrupts
 #define MCP_RX_INT		0x03		// Enable receive interrupts
 #define MCP_NO_INT		0x00		// Disable all interrupts
-
 #define MCP_TX01_MASK	0x14
 #define MCP_TX_MASK		0x54
 
 // Define SPI Instruction Set
-
 #define MCP_WRITE		0x02
-
 #define MCP_READ		0x03
 
 #define MCP_BITMOD		0x05
-
 #define MCP_LOAD_TX0	0x40
 #define MCP_LOAD_TX1	0x42
 #define MCP_LOAD_TX2	0x44
-
 #define MCP_RTS_TX0		0x81
 #define MCP_RTS_TX1		0x82
 #define MCP_RTS_TX2		0x84
@@ -112,13 +106,10 @@ Copyright 2003 Kimberly Otten Software Consulting
 
 #define MCP_READ_RX0	0x90
 #define MCP_READ_RX1	0x94
-
 #define MCP_READ_STATUS	0xA0
-
 #define MCP_RX_STATUS	0xB0
 
 #define MCP_RESET		0xC0
-
 
 // CANCTRL Register Values
 
@@ -174,17 +165,11 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_MERRF		0x80
 
 uint8_t mcp2515_init();
-
 uint8_t mcp2515_read(uint8_t address);
-
 void mcp2515_write(uint8_t address, uint8_t data);
-
 void mcp2515_request_to_send(uint8_t RTS_command);
-
 void mcp2515_bit_modify(uint8_t address,uint8_t mask,uint8_t data);
-
 void mcp2515_reset();
-
 uint8_t mcp2515_read_status();
 
 #endif
