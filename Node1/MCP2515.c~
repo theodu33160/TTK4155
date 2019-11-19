@@ -1,6 +1,6 @@
 #include "MCP2515.h"
 
-uint8_t mcp2515_init(uint8_t mode)
+uint8_t mcp2515_init(mode)
 {
     SPI_MasterInit(); // Initialize
 	mcp2515_reset(); // Send reset-command

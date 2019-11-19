@@ -85,7 +85,7 @@ void print_message(can_message* msg)
 	}
     if (msg->id == ID_JOYSTICK_ANGLE) // be carefull to put the multiplication by two after reøoving the offset
     {
-        msg->data = msg->data *2;
+        data = data *2;
     }
 	printf("msg: %d\t ", msg->data); //We have strange values with the %d and %u for the message	
 }

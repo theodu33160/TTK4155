@@ -85,7 +85,7 @@ void OLED_printf(const char *data)
 }
 
 //function that write data which is several characters but slowly according to the delay
-void OLED_printf_slow(const char *data, const uint16_t delay)
+void OLED_printf_slow(const char *data, const uint8_t delay)
 {
         while (*data != '\0')
     {

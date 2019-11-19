@@ -199,3 +199,19 @@ void CAN_send_quit()
     can_message_send(&message);
     while(!can_transmit_complete);
 }
+
+void print_message(can_message* msg)
+{
+	int data = msg->data[0];
+	printf("Message received: id %d", msg->id);
+	if (msg->id >=100 && msg->id<=106)
+	{
+		printf("%s",USB_list_name[msg->id-100]);
+		data = data - 128* (int)USB_list_offset[msg->id-100];
+	}
+	if (msg->id == ID_JOYSTICK_ANGLE) // be carefull to put the multiplication by two after reøoving the offset
+	{
+		data = data *2;
+	}
+	printf("Length: %d\t msg: %d\n\r ", msg->length,  data); //We have strange values with the %d and %u for the message	
+}

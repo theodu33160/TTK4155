@@ -1,5 +1,5 @@
 #include <avr/interrupt.h>
-#include "fonts.h"
+#include "font.h"
 #include "CAN_ID.h"
 #include "UART.h"
 //#include "accessMemory.c" //induce mistake in uart come since we added node 2

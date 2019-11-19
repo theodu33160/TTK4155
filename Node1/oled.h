@@ -25,7 +25,7 @@ void OLED_white();
 void OLED_black();
 void write_char(char c);
 void OLED_printf(const char *data);
-void OLED_printf_slow(const char *data, const uint8_t delay);
+void OLED_printf_slow(const char *data, const uint16_t delay);
 void write_char_inv(char c);
 void OLED_home();
 void OLED_Mode(char mode);

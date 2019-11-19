@@ -11,7 +11,7 @@ typedef struct PID_DATA {
 	int16_t P_Factor; // proportional tuning constant
 	int16_t I_Factor; // integral tuning constant
 	int16_t D_Factor; //derivative tuning constant
-};
+
 
 #define MAX_INT 127
 #define MAX_SUM_ERROR 5120

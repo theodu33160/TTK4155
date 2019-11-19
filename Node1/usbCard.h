@@ -36,9 +36,9 @@ uint8_t readADC(uint8_t channel);
 int8_t thresholds(int8_t dir);
 int8_t get_x();
 int8_t get_y();
-int16_t get_angle();cd ..
-uint8_t get_direction();
+int16_t get_angle();
 uint8_t get_magnitude();
+uint8_t get_direction();
 void printJoystick();
 void readSliders();
 uint8_t get_leftSlider();
