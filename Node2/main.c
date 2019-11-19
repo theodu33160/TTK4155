@@ -48,12 +48,12 @@ int main(void)
 	// Other initializations
 	can_init(MODE_NORMAL);
 	PWM_init();
-	ADC_init();
+	IR_init();
 	motor_init();
 	motor_calibrate();
 	struct PID_DATA motor_PID;
 	pid_Init((int16_t)4,(int16_t)2,(int16_t)0,&motor_PID);
-	
+
 	while(1)
 	{
 		current_time = TCNT4;
@@ -87,7 +87,7 @@ int main(void)
 		// The detection of ball crossing the line
 		if (ADC_read()<500) // If the IR is detecting the ball, ADC < 500
 		{
-			if (!ball_lost) // Control to not loose points, if the ball gets stuck in the line 
+			if (!ball_lost) // Control to not loose points, if the ball gets stuck in the line
 			{
 				score--;		// We loose points if the ball crosses
 				ball_lost = 1;  // While detecting the ball, this boolean is going to be 1
@@ -99,7 +99,7 @@ int main(void)
 			ball_lost = 0; // Once the ball has moved from the line, we are going to be able to count points again
 		}
 		if(current_time-previous_time>16*100) // Time is increasing every 1/16 ms
-		{ 	// We enter here every 100 ms 
+		{ 	// We enter here every 100 ms
 			previous_time = current_time;
 			motor_set_speed(pid_Controller(temp,-motor_readEncorder(),&motor_PID));
 		}

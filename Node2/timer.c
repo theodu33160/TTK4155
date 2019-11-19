@@ -1,7 +1,7 @@
 // Confguration of the PWM
 #include "timer.h"
 
-
+//initialisation of PWM
 void PWM_init()
 {
    
@@ -22,8 +22,6 @@ void PWM_init()
     TCCR1A |= (1<<COM1A1);
     TCCR1A &= ~(1<<COM1A0);
 
-   // OCR1AH = 0x00;
-    //OCR1AL = 0xff;
     
 
     //Configuring TOP value to have a Period of 0.02 s 
@@ -34,6 +32,7 @@ void PWM_init()
 
 }
 
+//set the pwm according to the duty
 void set_PWM(uint8_t duty)
 {
     if (duty < 70) duty = 70;
@@ -41,27 +40,12 @@ void set_PWM(uint8_t duty)
     uint16_t ocr = duty*20;
     OCR1AH = (ocr&0xFF00)>>8;
     OCR1AL = ocr&0x00FF;
-    //OCR1AH = 0x00;
-    //OCR1AL = 0xff;
-    //printf("OCR1A: %d\t",OCR1A);
-    //printf("OCR1AL: %d\n\r",OCR1AL);
-    //printf("duty OK \n\r");
 
 }
 
+//function that send the command to move to the servo according to the joystick position
 void set_servo(int xJoystick)
 {
     uint8_t res = (uint8_t) ((xJoystick-30)*13/20+70);
-    //printf("Xjoys %d\tres%u\t",xJoystick,res);
     set_PWM(res); //with xJoystick from 30 to 228
-}
-
-void normal_mode()
-{
-
-} 
-
-void IC_measure()
-{
-
 }

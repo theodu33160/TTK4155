@@ -9,7 +9,6 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-
 void motor_init();
 void motor_set_speed(int8_t speed);
 int16_t motor_readEncorder();

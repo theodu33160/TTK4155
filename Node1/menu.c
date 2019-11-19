@@ -4,6 +4,7 @@
 volatile uint8_t difficulty = 1;
 char* characters[NB_CHARACTERS] = {"Mario","Peach","Luigy","inaki","claire"};
 
+//initialisation of the menu - printing slowly Welcome to Ping Pong and below touch joysick 
 void menu_init()
 {
     OLED_black();
@@ -27,7 +28,7 @@ void menu_init()
     menu_main();
 }
 
-
+//function that enables to choose an item in the menu : settings / choose character / start game / leader board / quit
 void menu_main()
 {
     menu_displayMainPage();
@@ -36,32 +37,27 @@ void menu_main()
     {
         case 0:
             setSettings();
-            //Should we return to the main menu ?
             break;
         case 1:
             chooseCharacter();
-            //Should we return to the main menu ?
             break;
         case 2:
             start_game();
-            //Should we return to the main menu ?
             break;
         case 3:
             showLeaderBoard();
-            //Should we return to the main menu ?
             break;
         case 4:
             menu_quit();
-            //Should we return to the main menu ?
             break;
 
         default:
-            //Should we return to the main menu ?
             break;
     }
 
 }
 
+//function that diplay the main menu of the game 
 void menu_displayMainPage()
 {
     OLED_black();
@@ -81,6 +77,7 @@ void menu_displayMainPage()
     write_char_inv('1');
 }
 
+//function that enable to navigate in the menu
 uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu)
 {
     uint8_t menu_pos = 0;
@@ -131,16 +128,14 @@ uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu)
 }
 
 
+// function that returns the direction of the joystick (NEUTRAL / LEFT / RIGHT / UP / DOWN)
 uint8_t checkJoystick()
-{//this function should check if we use the joystick
-// We should be carefull not to have a doble push if we let the joystick in one position
-// or at least put a delay !
+{
     if (!read_button(BTN_JOYSTICK)) return PUSH;
     else return get_direction();
-
-
 }
 
+//function that 'open' a setting page to pick the difficulty of the game
 uint8_t setSettings()
 {
     OLED_black();
@@ -174,6 +169,7 @@ uint8_t setSettings()
 
 }
 
+//function that 'open' a page to pick a character
 void chooseCharacter()
 {
     showCharChoice();
@@ -190,6 +186,7 @@ void chooseCharacter()
     menu_main();
 }
 
+//function that 'open' a page to start playing ping pong
 void start_game()
 {
     OLED_black();
@@ -203,17 +200,10 @@ void start_game()
         OLED_printf(".");
         _delay_ms(200);
     }
-    /*
-    while(1)
-    {
-        if(checkJoystick()==LEFT)
-        {
-                menu_main();
-        }
-    }
-*/
+   
 }
 
+//function that enables to show the leader board
 void showLeaderBoard()
 {
     OLED_black();
@@ -233,6 +223,7 @@ void showLeaderBoard()
 
 }
 
+//function that turns off the screen
 void menu_quit()
 {
     OLED_black();
@@ -240,6 +231,7 @@ void menu_quit()
 }
 
 
+//function to choose the character
 void showCharChoice()
 {
     OLED_black();
