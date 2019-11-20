@@ -32,5 +32,6 @@ void CAN_send_YJoystick(uint8_t n);
 void CAN_send_magintudeJoystick();
 void CAN_send_joystick_angle();
 void CAN_send_quit();
+void CAN_send_difficulty(uint8_t difficulty);
 
 #endif

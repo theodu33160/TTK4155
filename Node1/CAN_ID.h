@@ -1,6 +1,7 @@
 #ifndef CAN_ID_H
 #define CAN_ID_H
 
+#define ID_DIFFICULTY 9
 #define ID_QUIT 10
 #define ID_BTNS 100 //we can store 8 buttons in 1 byte. Use BTN_RIGHT, BTN_LEFT or BTN_JOYSTICK to choose the value you want.
 #define ID_LEFT_SLIDER 101

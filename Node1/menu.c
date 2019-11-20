@@ -143,7 +143,8 @@ uint8_t setSettings()
     OLED_printf("Setting page");
     OLED_pos(2,0);
     OLED_printf("difficulty ? ");
-    //add something to chose the difficulty
+    //chosing the difficulty with the joystick
+    _Bool joystick_pressed =false;
     while(1)
     {
         OLED_pos(2,13*8);
@@ -156,14 +157,22 @@ uint8_t setSettings()
                 return difficulty;
             break;
             case DOWN:
-                if (difficulty>1) difficulty--;
+		if(!joystick_pressed)
+		{
+		    if (difficulty>1) difficulty--;
+		    joystick_pressed = true;
+		}
                 break;
             case UP:
-                if (difficulty<9) difficulty++;
+		if(!joystick_pressed)
+		{
+                    if (difficulty<9) difficulty++;
+		    joystick_pressed = true;
+		}
                 break;
             default:
+		joystick_pressed = false;
                 break;
-
         }
     }
 

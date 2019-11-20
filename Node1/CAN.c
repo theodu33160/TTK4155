@@ -195,7 +195,17 @@ void CAN_send_quit()
 	can_message message;
     message.id = ID_QUIT;
     message.length= 1;
-    message.data[0] = 0;
+    message.data[0] = 0; //this data has no interest, We just want send a message from this ID to stop the games
+    can_message_send(&message);
+    while(!can_transmit_complete);
+}
+
+void CAN_send_difficulty(uint8_t difficulty)
+{
+	can_message message;
+    message.id = ID_DIFFICULTY;
+    message.length= 1;
+    message.data[0] = difficulty;
     can_message_send(&message);
     while(!can_transmit_complete);
 }
