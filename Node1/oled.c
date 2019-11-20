@@ -1,4 +1,5 @@
 #include "oled.h"
+#include "fonts.h"
 
 volatile uint8_t col=0;
 volatile uint8_t page=0;
@@ -132,7 +133,6 @@ void OLED_goto_column(uint8_t column)
 	write_c(0x21);
 	write_c(column);
 	write_c(127);
-
 }
 
 //function that enables to set the cursor to the desired page and desired column

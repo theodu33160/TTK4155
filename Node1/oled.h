@@ -16,7 +16,6 @@
 #include <math.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "fonts.h"
 
 void write_c(uint8_t data);
 void write_d(uint8_t data);
@@ -31,6 +30,6 @@ void OLED_home();
 void OLED_Mode(char mode);
 void OLED_goto_line(uint8_t line);
 void OLED_goto_column(uint8_t column);
-void OLED_pos(uint8_t pqge, uint8_t col);
+void OLED_pos(uint8_t page, uint8_t col);
 
 #endif

@@ -46,7 +46,8 @@ uint8_t get_rightSlider();
 uint8_t xJoystickCalibration();
 uint8_t yJoystickCalibration();
 _Bool read_button(uint8_t btn);
-int8_t readButtons();
+uint8_t readButtons();
+uint8_t read_buttons();
 int8_t get_joystick(uint8_t dir);
 int8_t get_joystick_filtered(uint8_t dir,uint8_t n);
 

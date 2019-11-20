@@ -1,13 +1,13 @@
 #include <avr/interrupt.h>
-#include "fonts.h"
-#include "CAN_ID.h"
 #include "UART.h"
 //#include "accessMemory.c" //induce mistake in uart come since we added node 2
 #include "usbCard.h"
 #include "oled.h"
+#include "menu.h"
 #include "MCP2515.h"
 #include "SPI.h"
 #include "CAN.h" 
+#include "CAN_ID.h"
 
 #define RAM_SLIDER_RIGHT 0x0
 #define RAM_SLIDER_LEFT  0x1
