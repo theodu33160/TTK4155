@@ -43,6 +43,7 @@ fuse:
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
+	rm *~ #because of linux-windows transition
 
 .PHONY: erase
 erase:
