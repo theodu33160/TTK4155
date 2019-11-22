@@ -226,7 +226,7 @@ void showLeaderBoard()
     {
         _delay_ms(10);
     }
-    main_menu();
+    menu_main();
 }
 
 //function that turns off the screen
