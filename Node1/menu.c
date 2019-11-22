@@ -101,7 +101,6 @@ uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu)
                     write_char_inv(menu_pos + 49);
                     actionAllowed=false;
                     break;
-
                 case UP:
                     OLED_pos(menu_pos + firstLine,0);
                     write_char(menu_pos+49);
@@ -112,10 +111,12 @@ uint8_t menu_navigate(uint8_t firstLine, uint8_t nb_subMenu)
                     actionAllowed=false;
                     break;
                 case LEFT:
+                    actionAllowed=false;
                     menu_main();
                     break;
                 case RIGHT:
                 case PUSH:
+                    actionAllowed=false;
                     return menu_pos;
                     break;
 
@@ -209,7 +210,6 @@ void start_game()
         OLED_printf(".");
         _delay_ms(200);
     }
-   
 }
 
 //function that enables to show the leader board
@@ -222,14 +222,11 @@ void showLeaderBoard()
     OLED_printf("1 AZERTY <3");
     OLED_pos(3,0);
     OLED_printf("2 Stud. assist.");
-    while(1)
+    while(checkJoystick()!=LEFT)
     {
-        if(checkJoystick()==LEFT)
-        {
-            menu_main();
-        }
+        _delay_ms(10);
     }
-
+    main_menu();
 }
 
 //function that turns off the screen
